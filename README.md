@@ -1,11 +1,11 @@
 # << Paranoid-OOP >>
 
-## << Descrição breve do domínio do problema >>
+## << Clone do jogo de arcade Arkanoid >>
 
 > Repositório destinado para o desenvolvimento do projeto final da disciplina 
 > PRG22107 - Programação orientada objeto. 
 > 
-> Aluno: << Eduardo Rodrigues de Olivera e Gabriel da Silva Huebra >>  
+> Alunos: << Eduardo Rodrigues de Olivera e Gabriel da Silva Huebra >>  
 > Professor: Hugo Marcondes
 
 <p align=center><strong>SUMÁRIO</strong></p>
