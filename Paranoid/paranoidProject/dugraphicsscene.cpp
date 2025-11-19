@@ -26,12 +26,13 @@ void DuGraphicsScene::stopScene()
 
 void DuGraphicsScene::keyPressEvent(QKeyEvent *event)
 {
-    mPlatformItem->move(event->key());
+    mPlatformItem->keyPress(event->key());
 }
 
 void DuGraphicsScene::keyReleaseEvent(QKeyEvent *event)
 {
-    event->accept();
+    mPlatformItem->keyRelease(event->key());
+    //event->accept();
 }
 
 void DuGraphicsScene::createObjects()
@@ -56,6 +57,7 @@ void DuGraphicsScene::connectObjects()
 void DuGraphicsScene::updateScene()
 {
     mBallItem->move();
+    mPlatformItem->move();
     if(mBallItem->collidesWithItem(mPlatformItem)){
         checkCollisions();
     }
@@ -66,21 +68,28 @@ void DuGraphicsScene::checkCollisions()
 {
     int bvx = mBallItem->getvx();
     int bvy = mBallItem->getvy();
-    const int pvx = mPlatformItem->getvx();
-    const int pvy = mPlatformItem->getvy();
-    if(bvx > 0 && bvy > 0 && pvx > 0 && pvy ==0){
-        bvx += DuUtil::abs(bvx);
-        bvy -= DuUtil::abs(bvy);
-    } else if(bvx < 0 && bvy > 0 && pvx > 0 && pvy ==0){
-        bvx -= DuUtil::abs(bvx);
-        bvy += DuUtil::abs(bvy);
-    } else if(bvx > 0 && bvy > 0 && pvx < 0 && pvy ==0){
-        bvx += DuUtil::abs(bvx);
-        bvy -= DuUtil::abs(bvy);
-    } else if(bvx < 0 && bvy > 0 && pvx < 0 && pvy ==0){
-        bvx -= DuUtil::abs(bvx);
-        bvy -= DuUtil::abs(bvy);
+
+    // Aceleração na Plataforma
+
+    // Aumenta a velocidade Y se não atingiu o máximo
+    if(DuUtil::abs(bvy) < MAX_SPEED){
+        // Se bvy for positivo (descendo), soma 1. Se negativo, subtrai 1.
+        if (bvy > 0) bvy++; else bvy--;
     }
+
+    // Opcional: Aumentar velocidade X também?
+    /*
+    if(DuUtil::abs(bvx) < MAX_SPEED){
+        if (bvx > 0) bvx++; else bvx--;
+    }
+    */
+
+    // Lógica de Rebatida
+
+    // Rebate para cima (Sempre negativo)
+    bvy = -DuUtil::abs(bvy);
+
+    // Atualiza a bola
     mBallItem->setvx(bvx);
     mBallItem->setvy(bvy);
 }

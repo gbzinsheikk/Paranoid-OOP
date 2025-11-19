@@ -8,11 +8,22 @@ class DuPlatformItem : public DuIObjectItem
 public:
     DuPlatformItem(int x, int y, int w, int h, int vx, int vy, QGraphicsItem *parent = nullptr);
 
-    //DuPlatformItem::DuPlatformItem(int x, int y, int w, int h, int vx, int vy, QGraphicsItem *parent)
-    void move(int key);
+    // Captura o estado das teclas
+    void keyPress(int key);
+    void keyRelease(int key);
+
+    void move();
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+
+private:
+    // Flags
+    bool mIsLeftPressed;
+    bool mIsRightPressed;
+
+    // Velocidade atual
+    double mCurrentVx;
 };
 
 #endif // DUPLATFORMITEM_H
