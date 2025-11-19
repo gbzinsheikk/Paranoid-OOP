@@ -1,8 +1,8 @@
 #ifndef DUGLOBALDEFINES_H
 #define DUGLOBALDEFINES_H
 
-#define XSIZE 1000
-#define YSIZE 600
+#define XSIZE 1000.0
+#define YSIZE 600.0
 
 #define XBALL XSIZE/2
 #define YBALL YSIZE/2

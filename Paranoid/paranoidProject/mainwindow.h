@@ -4,8 +4,13 @@
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui
+{
+class MainWindow;
+}
 QT_END_NAMESPACE
+
+class DuArkanoid;
 
 class MainWindow : public QMainWindow
 {
@@ -15,7 +20,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_actionIniciar_triggered();
+    void on_actionQuitar_triggered();
+
 private:
     Ui::MainWindow *ui;
+    DuArkanoid *mArkanoid;
 };
 #endif // MAINWINDOW_H
