@@ -2,7 +2,9 @@
 #include "DuGlobalDefines.h"
 #include "duthreadtimer.h"
 #include "duballitem.h"
+#include "duutil.h"
 #include "duplatformitem.h"
+
 #include <QKeyEvent>
 
 DuGraphicsScene::DuGraphicsScene(QObject *parent) : QGraphicsScene(0.0 , 0.0, XSIZE, YSIZE, parent)
@@ -35,7 +37,7 @@ void DuGraphicsScene::keyReleaseEvent(QKeyEvent *event)
 void DuGraphicsScene::createObjects()
 {
     mThreadTimer = new DuThreadTimer(MILISECONDS, this);
-    mBallItem = new DuBallItem(XBALL, YBALL, HBALL, VXBALL, VYBALL);
+    mBallItem = new DuBallItem(XBALL, YBALL, WBALL, HBALL, VXBALL, VYBALL);
     mPlatformItem = new DuPlatformItem(XPLATFORM, YPLATFORM, WPLATFORM, HPLATFORM, VXPLATFORM, VYPLATFORM);
 }
 
@@ -53,11 +55,33 @@ void DuGraphicsScene::connectObjects()
 
 void DuGraphicsScene::updateScene()
 {
-    // LÓGICA DO JOGO
-
-    mBall->move();
-    if(mBallItem->collidesWith(mPlatform)){
-
+    mBallItem->move();
+    if(mBallItem->collidesWithItem(mPlatformItem)){
+        checkCollisions();
     }
     update();
 }
+
+void DuGraphicsScene::checkCollisions()
+{
+    int bvx = mBallItem->getvx();
+    int bvy = mBallItem->getvy();
+    const int pvx = mPlatformItem->getvx();
+    const int pvy = mPlatformItem->getvy();
+    if(bvx > 0 && bvy > 0 && pvx > 0 && pvy ==0){
+        bvx += DuUtil::abs(bvx);
+        bvy -= DuUtil::abs(bvy);
+    } else if(bvx < 0 && bvy > 0 && pvx > 0 && pvy ==0){
+        bvx -= DuUtil::abs(bvx);
+        bvy += DuUtil::abs(bvy);
+    } else if(bvx > 0 && bvy > 0 && pvx < 0 && pvy ==0){
+        bvx += DuUtil::abs(bvx);
+        bvy -= DuUtil::abs(bvy);
+    } else if(bvx < 0 && bvy > 0 && pvx < 0 && pvy ==0){
+        bvx -= DuUtil::abs(bvx);
+        bvy -= DuUtil::abs(bvy);
+    }
+    mBallItem->setvx(bvx);
+    mBallItem->setvy(bvy);
+}
+

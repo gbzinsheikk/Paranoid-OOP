@@ -1,11 +1,11 @@
 #include "duthreadtimer.h"
 
-DuThreadTime::DuThreadTimer(int miliseconds, QObject *parent) : QThread(parent)
+DuThreadTimer::DuThreadTimer(int miliseconds, QObject *parent) : QThread(parent)
 {
     mMiliseconds = miliseconds;
 }
 
-void DuThreadTime::run()
+void DuThreadTimer::run()
 {
     while(true){
         emit timeOut();

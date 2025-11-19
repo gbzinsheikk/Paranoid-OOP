@@ -20,5 +20,6 @@ void DuBallItem::move()
 
 void DuBallItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawEllipse(mx, my, mw, mh);
+    painter->setBrush(Qt::red);
+    painter->drawEllipse(0, 0, mw, mh);
 }

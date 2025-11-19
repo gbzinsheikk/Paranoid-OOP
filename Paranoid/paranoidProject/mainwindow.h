@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "duarkanoid.h"
+
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -21,8 +23,10 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_actionIniciar_triggered();
-    void on_actionQuitar_triggered();
+    void iniciarJogo();
+    void encerrarJogo();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;

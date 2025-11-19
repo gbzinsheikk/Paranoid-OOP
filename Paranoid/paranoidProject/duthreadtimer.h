@@ -3,7 +3,7 @@
 
 #include <QThread>
 
-class DuThreadTime : public QThread
+class DuThreadTimer : public QThread
 {
         Q_OBJECT
 public:

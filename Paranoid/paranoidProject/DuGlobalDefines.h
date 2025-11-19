@@ -12,11 +12,13 @@
 #define VYBALL 2
 
 #define XPLATFORM XSIZE*1/2
-#define YPLATFORM XSIZE*7/8
+#define YPLATFORM YSIZE*7/8
 #define WPLATFORM 100
 #define HPLATFORM 10
 #define VXPLATFORM 5
 #define VYPLATFORM 0
+
+#define MAX_SPEED 12
 
 #define MILISECONDS 10
 

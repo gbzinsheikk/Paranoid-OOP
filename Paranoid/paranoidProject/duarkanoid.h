@@ -2,9 +2,11 @@
 #define DUARKANOID_H
 
 #include <QObject>
+#include <QWidget>
 
 class DuGraphicsScene;
-class DuGraphicsView;
+//class DuGraphicsView;
+class QGraphicsView;
 
 class DuArkanoid : public QObject
 {

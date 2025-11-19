@@ -8,7 +8,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     mArkanoid = new DuArkanoid(ui->graphicsView, this);
-    setCentralWidget(ui->graphicsView);
+    //setCentralWidget(ui->graphicsView);
+
+    connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::iniciarJogo);
+    connect(ui->pushButton_2, &QPushButton::clicked, this, &MainWindow::encerrarJogo);
+
 }
 
 MainWindow::~MainWindow()
@@ -16,16 +20,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-void MainWindow::on_actionIniciar_triggered()
+void MainWindow::iniciarJogo()
 {
     mArkanoid->startGame();
 }
 
-
-void MainWindow::on_actionQuitar_triggered()
+void MainWindow::encerrarJogo()
 {
     mArkanoid->stopGame();
     close();
 }
-

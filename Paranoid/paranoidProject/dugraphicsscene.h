@@ -23,6 +23,7 @@ private:
     void configureObjects();
     void connectObjects();
     void updateScene();
+    void checkCollisions();
 
     DuThreadTimer *mThreadTimer;
     DuBallItem *mBallItem;
