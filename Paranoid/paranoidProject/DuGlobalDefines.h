@@ -23,6 +23,8 @@
 
 #define MAX_SPEED      12       // Velocidade Máxima da Bola (Base: 12)
 
+//define INIT_SCORE 0
+
 #define MILISECONDS 10
 
 #endif // DUGLOBALDEFINES_H

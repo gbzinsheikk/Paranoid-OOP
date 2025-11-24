@@ -57,7 +57,7 @@ void DuGraphicsScene::keyReleaseEvent(QKeyEvent *event)
 void DuGraphicsScene::createObjects()
 {
     mThreadTimer = new DuThreadTimer(MILISECONDS, this);
-    mBallItem = new DuBallItem(XBALL, YBALL, WBALL, HBALL, VXBALL, VYBALL);
+    mBallItem = new DuBallItem(XBALL, YBALL, WBALL, HBALL, VXBALL, VYBALL, 0.0f);
     mPlatformItem = new DuPlatformItem(XPLATFORM, YPLATFORM, WPLATFORM, HPLATFORM, VXPLATFORM, VYPLATFORM);
 }
 
@@ -78,13 +78,16 @@ void DuGraphicsScene::updateScene()
     mBallItem->move();
     mPlatformItem->move();
 
+    /* Atualiza Score */
+
+    emit scoreChanged(mBallItem->getScore());
+
     /* GAME OVER */
 
     // Verifica se a posição Y da bola passou do limite inferior da tela
-    if (mBallItem->gety() >= (YSIZE - HBALL)) {
+    if (mBallItem->gety() >= (YSIZE - (HBALL-50))) {
         stopScene(); // Para o Timer
     }
-
 
     if(mBallItem->collidesWithItem(mPlatformItem)){
         checkCollisions();

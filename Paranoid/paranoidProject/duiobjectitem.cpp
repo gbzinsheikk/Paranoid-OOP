@@ -1,6 +1,6 @@
 #include "duiobjectitem.h"
 
-DuIObjectItem::DuIObjectItem(int x, int y, int w, int h, int vx, int vy, QGraphicsItem *parent) : QGraphicsItem(parent)
+DuIObjectItem::DuIObjectItem(int x, int y, int w, int h, int vx, int vy, int score, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
     mx = x;
     my = y;
@@ -8,6 +8,7 @@ DuIObjectItem::DuIObjectItem(int x, int y, int w, int h, int vx, int vy, QGraphi
     mh = h;
     mvx = vx;
     mvy = vy;
+    mscore = score;
 
     // Define a posição inicial do item na cena
     setPos(mx, my);
@@ -25,6 +26,5 @@ void DuIObjectItem::move()
 QRectF DuIObjectItem::boundingRect() const
 {
     // Retorna o retângulo começando em 0,0.
-    // A posição (x,y) já é controlada pelo setPos.
     return QRectF(0, 0, mw, mh);
 }

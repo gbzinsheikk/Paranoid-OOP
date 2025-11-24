@@ -12,6 +12,7 @@ class DuArkanoid : public QObject
 {
 public:
     DuArkanoid(QGraphicsView *graphicsView, QObject *parent = nullptr);
+    DuGraphicsScene* getScene() const { return mScene; }
     void startGame();
     void resetGame();
     void stopGame();

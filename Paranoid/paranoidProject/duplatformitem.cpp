@@ -5,7 +5,7 @@
 #include <QKeyEvent>
 
 DuPlatformItem::DuPlatformItem(int x, int y, int w, int h, int vx, int vy, QGraphicsItem *parent)
-    : DuIObjectItem(x, y, w, h, vx, vy, parent)
+    : DuIObjectItem(x, y, w, h, vx, vy, 0, parent)
 {
 
     mIsLeftPressed = false;

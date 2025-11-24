@@ -9,6 +9,8 @@ class DuPlatformItem;
 
 class DuGraphicsScene : public QGraphicsScene
 {
+    Q_OBJECT
+
 public:
     DuGraphicsScene(QObject *parent = nullptr);
     void startScene();
@@ -29,6 +31,10 @@ private:
     DuThreadTimer *mThreadTimer;
     DuBallItem *mBallItem;
     DuPlatformItem *mPlatformItem;
+
+signals:
+    void scoreChanged(int newScore);
+
 };
 
 #endif // DUGRAPHICSSCENE_H

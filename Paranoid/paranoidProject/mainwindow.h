@@ -9,6 +9,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include "duarkanoid.h"
+#include "qlcdnumber.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -26,7 +27,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    //void encerrarJogo();
+
+    void updateScore(int score);
 
 private slots:
     void iniciarJogo();
@@ -38,6 +40,7 @@ private:
     QPushButton *mBotaoIniciar;
     QPushButton *mBotaoReset;
     QPushButton *mBotaoQuitar;
+    QLCDNumber *mScoreDisplay;
     QGraphicsView *mView;
 
     DuArkanoid *mArkanoid;

@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "duarkanoid.h"
+#include "dugraphicsscene.h"
+//#include "duballitem.h"
 #include <QWidget>
+#include <QLCDNumber>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,6 +19,11 @@ MainWindow::MainWindow(QWidget *parent)
     mBotaoIniciar = new QPushButton("PLAY", this);
     mBotaoReset = new QPushButton("RESET", this);
     mBotaoQuitar = new QPushButton("QUIT", this);
+
+    mScoreDisplay = new QLCDNumber(this);
+    mScoreDisplay->setSegmentStyle(QLCDNumber::Flat);
+    mScoreDisplay->display(0);
+
     mView = new QGraphicsView(this);
 
     mBotaoIniciar->setFixedSize(100, 40);
@@ -26,7 +34,10 @@ MainWindow::MainWindow(QWidget *parent)
     buttonsLayout->addWidget(mBotaoIniciar);
     buttonsLayout->addWidget(mBotaoReset);
     buttonsLayout->addWidget(mBotaoQuitar);
+
     buttonsLayout->addStretch();
+
+    buttonsLayout->addWidget(mScoreDisplay);
 
     QVBoxLayout *mainLayout = new QVBoxLayout(centralWidget);
     mainLayout->addLayout(buttonsLayout);
@@ -34,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     mArkanoid = new DuArkanoid(mView, this);
 
+    connect(mArkanoid->getScene(), &DuGraphicsScene::scoreChanged, this, &MainWindow::updateScore);
     connect(mBotaoIniciar, &QPushButton::clicked, this, &MainWindow::iniciarJogo);
     connect(mBotaoReset, &QPushButton::clicked, this, &MainWindow::resetarJogo);
     connect(mBotaoQuitar, &QPushButton::clicked, this, &MainWindow::encerrarJogo);
@@ -62,3 +74,7 @@ void MainWindow::encerrarJogo()
     close();
 }
 
+void MainWindow::updateScore(int score)
+{
+    mScoreDisplay->display(score);
+}

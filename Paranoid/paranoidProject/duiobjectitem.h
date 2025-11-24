@@ -5,7 +5,7 @@
 class DuIObjectItem : public QGraphicsItem
 {
 public:
-    DuIObjectItem(int x, int y, int w, int h, int vx, int vy, QGraphicsItem *parent = nullptr);
+    DuIObjectItem(int x, int y, int w, int h, int vx, int vy, int score, QGraphicsItem *parent = nullptr);
 
     void setx(int x) { mx=x; }
     void sety(int y) { my=y; }
@@ -21,6 +21,9 @@ public:
     int getvx() const { return mvx; }
     int getvy() const { return mvy; }
 
+    void setscore(int score) { mscore=score; }
+    int getscore() const {return mscore;};
+
     virtual void move();
 
 protected:
@@ -29,6 +32,7 @@ protected:
     int mx, my;
     int mw, mh;
     int mvx, mvy;
+    float mscore;
 
 };
 

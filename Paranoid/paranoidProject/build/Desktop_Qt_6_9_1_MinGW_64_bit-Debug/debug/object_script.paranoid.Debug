@@ -7,5 +7,6 @@ debug/duthreadtimer.o
 debug/duutil.o
 debug/main.o
 debug/mainwindow.o
+debug/moc_dugraphicsscene.o
 debug/moc_duthreadtimer.o
 debug/moc_mainwindow.o

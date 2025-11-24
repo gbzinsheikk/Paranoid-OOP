@@ -5,7 +5,7 @@
 //#include "duarkanoid.h"
 #include <QPainter>
 
-DuBallItem::DuBallItem(int x, int y, int w, int h, int vx, int vy, QGraphicsItem *parent) : DuIObjectItem(x, y, w, h, vx, vy, parent)
+DuBallItem::DuBallItem(int x, int y, int w, int h, int vx, int vy, int score, QGraphicsItem *parent) : DuIObjectItem(x, y, w, h, vx, vy, score, parent)
 {
 }
 
@@ -17,8 +17,16 @@ void DuBallItem::move()
 
             // Aceleração Linear
             if(DuUtil::abs(mvx) < MAX_SPEED){
-                if(mvx > 0) mvx++; else mvx--;
+                if(mvx > 0){
+                    mvx++;
+
+                }  else {
+                    mvx--;
+
+                }
             }
+            // Aumenta Score
+            mscore += 25;
 
             // Inversão
             mvx = -mvx;
@@ -33,8 +41,16 @@ void DuBallItem::move()
 
             // Aceleração Linear
             if(DuUtil::abs(mvy) < MAX_SPEED){
-                if(mvy > 0) mvy++; else mvy--;
-            }
+                if(mvy > 0){
+                    mvy++;
+
+                }  else {
+                    mvy--;
+
+                }
+            }            
+            // Aumenta Score
+            mscore += 500;
 
             // Inversão
             mvy = -mvy;
@@ -48,11 +64,12 @@ void DuBallItem::move()
         else if (my >= (YSIZE - HBALL)) {
             //mvy = -mvy;
             //my = YSIZE - HBALL - 1;
+            mscore = 0;
             mvx = 0;
             mvy = 0;
         }
 
-    DuIObjectItem::move(); // Atualiza mx e my baseados no novo mvx/mvy
+    DuIObjectItem::move();
     setPos(mx, my);
 }
 
