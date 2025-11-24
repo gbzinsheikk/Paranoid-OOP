@@ -30,8 +30,7 @@ HEADERS += \
     duutil.h \
     mainwindow.h
 
-FORMS += \
-    mainwindow.ui
+FORMS +=
 
 QMAKE_CXXFLAGS += -std=gnu++14
 

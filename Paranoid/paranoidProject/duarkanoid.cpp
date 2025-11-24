@@ -13,6 +13,11 @@ void DuArkanoid::startGame()
     mScene->startScene();
 }
 
+void DuArkanoid::resetGame()
+{
+    mScene->resetScene();
+}
+
 void DuArkanoid::stopGame()
 {
     mScene->stopScene();

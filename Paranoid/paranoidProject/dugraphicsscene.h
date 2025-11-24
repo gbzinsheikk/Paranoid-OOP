@@ -12,6 +12,7 @@ class DuGraphicsScene : public QGraphicsScene
 public:
     DuGraphicsScene(QObject *parent = nullptr);
     void startScene();
+    void resetScene();
     void stopScene();
 
 protected:

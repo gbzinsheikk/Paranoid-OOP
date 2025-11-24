@@ -7,7 +7,7 @@
 DuPlatformItem::DuPlatformItem(int x, int y, int w, int h, int vx, int vy, QGraphicsItem *parent)
     : DuIObjectItem(x, y, w, h, vx, vy, parent)
 {
-    // Inicializa variáveis
+
     mIsLeftPressed = false;
     mIsRightPressed = false;
     mCurrentVx = 0.0;
@@ -27,18 +27,18 @@ void DuPlatformItem::keyRelease(int key)
 
 void DuPlatformItem::move()
 {
-    // Aceleração
+    /* Aceleração */
     if (mIsLeftPressed) {
-        // Acelera para a esquerda (negativo)
+        // Esquerda (negativo)
         if (mCurrentVx > -VXPLATFORM)
             mCurrentVx -= PLATFORM_ACCEL;
     }
     else if (mIsRightPressed) {
-        // Acelera para a direita (positivo)
+        // Direita (positivo)
         if (mCurrentVx < VXPLATFORM)
             mCurrentVx += PLATFORM_ACCEL;
     }
-    // Interpolação
+    /* Interpolação */
     else {
         if (mCurrentVx > 0) {
             mCurrentVx -= PLATFORM_FRIC;
@@ -49,10 +49,10 @@ void DuPlatformItem::move()
         }
     }
 
-    // Aplicação do Movimento
+    /* Aplicação do Movimento */
     mx += (int)mCurrentVx;
 
-    // Limites da Tela
+    /* Limites da Tela */
     if (mx < 0) {
         mx = 0;
         mCurrentVx = 0;
@@ -61,7 +61,6 @@ void DuPlatformItem::move()
         mCurrentVx = 0;
     }
 
-    // Atualiza na tela
     setPos(mx, my);
 }
 

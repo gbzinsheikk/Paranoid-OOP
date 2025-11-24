@@ -33,7 +33,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1200, 672);
+        MainWindow->resize(683, 672);
         actionIniciar = new QAction(MainWindow);
         actionIniciar->setObjectName("actionIniciar");
         actionQuitar = new QAction(MainWindow);
@@ -48,7 +48,7 @@ public:
         pushButton_2->setGeometry(QRect(20, 80, 111, 41));
         graphicsView = new QGraphicsView(centralwidget);
         graphicsView->setObjectName("graphicsView");
-        graphicsView->setGeometry(QRect(150, 20, 1031, 641));
+        graphicsView->setGeometry(QRect(150, 20, 521, 641));
         MainWindow->setCentralWidget(centralwidget);
         graphicsView->raise();
         pushButton->raise();

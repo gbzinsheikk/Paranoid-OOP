@@ -11,8 +11,10 @@ public:
     // Captura o estado das teclas
     void keyPress(int key);
     void keyRelease(int key);
-
     void move();
+
+    // Velocidade atual
+    double mCurrentVx;
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
@@ -21,9 +23,6 @@ private:
     // Flags
     bool mIsLeftPressed;
     bool mIsRightPressed;
-
-    // Velocidade atual
-    double mCurrentVx;
 };
 
 #endif // DUPLATFORMITEM_H

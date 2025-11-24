@@ -42,7 +42,7 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "iniciarJogo",
         "",
         "encerrarJogo",
-        "on_pushButton_clicked"
+        "resetarJogo"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -50,7 +50,7 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'encerrarJogo'
         QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_pushButton_clicked'
+        // Slot 'resetarJogo'
         QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
@@ -77,6 +77,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->iniciarJogo(); break;
         case 1: _t->encerrarJogo(); break;
+        case 2: _t->resetarJogo(); break;
         default: ;
         }
     }

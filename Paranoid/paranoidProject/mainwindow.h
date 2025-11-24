@@ -4,6 +4,11 @@
 #include "duarkanoid.h"
 
 #include <QMainWindow>
+#include <QPushButton>
+#include <QGraphicsView>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include "duarkanoid.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -21,15 +26,20 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    //void encerrarJogo();
 
 private slots:
     void iniciarJogo();
     void encerrarJogo();
-
-    void on_pushButton_clicked();
+    void resetarJogo();
+    //void on_pushButton_clicked();
 
 private:
-    Ui::MainWindow *ui;
+    QPushButton *mBotaoIniciar;
+    QPushButton *mBotaoReset;
+    QPushButton *mBotaoQuitar;
+    QGraphicsView *mView;
+
     DuArkanoid *mArkanoid;
 };
 #endif // MAINWINDOW_H

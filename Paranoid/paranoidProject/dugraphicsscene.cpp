@@ -19,6 +19,25 @@ void DuGraphicsScene::startScene()
     mThreadTimer->start();
 }
 
+void DuGraphicsScene::resetScene()
+{
+    //stopScene();
+
+    mBallItem->setx(XBALL);
+    mBallItem->sety(YBALL);
+    mBallItem->setvx(VXBALL);
+    mBallItem->setvy(VYBALL);
+    mBallItem->setPos(XBALL, YBALL);
+
+    mPlatformItem->setx(XPLATFORM);
+    mPlatformItem->sety(YPLATFORM);
+    mPlatformItem->setvx(VXPLATFORM);
+    mPlatformItem->setPos(XPLATFORM, YPLATFORM);
+    //mPlatformItem->mCurrentVx(0);
+
+    update();
+}
+
 void DuGraphicsScene::stopScene()
 {
     mThreadTimer->terminate();
@@ -58,6 +77,15 @@ void DuGraphicsScene::updateScene()
 {
     mBallItem->move();
     mPlatformItem->move();
+
+    /* GAME OVER */
+
+    // Verifica se a posição Y da bola passou do limite inferior da tela
+    if (mBallItem->gety() >= (YSIZE - HBALL)) {
+        stopScene(); // Para o Timer
+    }
+
+
     if(mBallItem->collidesWithItem(mPlatformItem)){
         checkCollisions();
     }
@@ -69,28 +97,27 @@ void DuGraphicsScene::checkCollisions()
     int bvx = mBallItem->getvx();
     int bvy = mBallItem->getvy();
 
-    // Aceleração na Plataforma
+    /* Aceleração Plataforma */
 
-    // Aumenta a velocidade Y se não atingiu o máximo
-    if(DuUtil::abs(bvy) < MAX_SPEED){
-        // Se bvy for positivo (descendo), soma 1. Se negativo, subtrai 1.
-        if (bvy > 0) bvy++; else bvy--;
-    }
+        // Aumenta velocidade Y
+        if(DuUtil::abs(bvy) < MAX_SPEED){
+            if (bvy > 0) bvy++; else bvy--;
+        }
 
-    // Opcional: Aumentar velocidade X também?
-    /*
-    if(DuUtil::abs(bvx) < MAX_SPEED){
-        if (bvx > 0) bvx++; else bvx--;
-    }
-    */
+        // Aumenta velocidade X
+        /*
+        if(DuUtil::abs(bvx) < MAX_SPEED){
+            if (bvx > 0) bvx++; else bvx--;
+        }
+        */
 
-    // Lógica de Rebatida
+    /* Lógica Bounce */
 
-    // Rebate para cima (Sempre negativo)
-    bvy = -DuUtil::abs(bvy);
+        // Rebate para cima
+        bvy = -DuUtil::abs(bvy);
 
-    // Atualiza a bola
-    mBallItem->setvx(bvx);
-    mBallItem->setvy(bvy);
+        // Atualiza a bola
+        mBallItem->setvx(bvx);
+        mBallItem->setvy(bvy);
 }
 
