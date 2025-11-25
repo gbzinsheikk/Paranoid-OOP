@@ -1,15 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "duarkanoid.h"
-
 #include <QMainWindow>
 #include <QPushButton>
 #include <QGraphicsView>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include "duarkanoid.h"
 #include "qlcdnumber.h"
+#include "dugraphicsscene.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -17,8 +15,6 @@ namespace Ui
 class MainWindow;
 }
 QT_END_NAMESPACE
-
-class DuArkanoid;
 
 class MainWindow : public QMainWindow
 {
@@ -43,7 +39,7 @@ private:
     QLCDNumber *mScoreDisplay;
     QGraphicsView *mView;
 
-    DuArkanoid *mArkanoid;
+    DuGraphicsScene *mScene;
 
 protected:
 
