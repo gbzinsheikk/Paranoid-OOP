@@ -2,6 +2,8 @@
 #include "dugraphicsscene.h"
 #include <QGraphicsView>
 
+/*ARRUMAR */
+
 DuArkanoid::DuArkanoid(QGraphicsView *graphicsView, QObject *parent) : QObject(parent)
 {
     mScene = new DuGraphicsScene(this);

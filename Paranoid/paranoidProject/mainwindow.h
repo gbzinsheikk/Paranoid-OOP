@@ -34,7 +34,7 @@ private slots:
     void iniciarJogo();
     void encerrarJogo();
     void resetarJogo();
-    //void on_pushButton_clicked();
+    void resetButtonOn();
 
 private:
     QPushButton *mBotaoIniciar;
@@ -44,5 +44,8 @@ private:
     QGraphicsView *mView;
 
     DuArkanoid *mArkanoid;
+
+protected:
+
 };
 #endif // MAINWINDOW_H

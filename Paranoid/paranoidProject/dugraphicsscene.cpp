@@ -86,7 +86,8 @@ void DuGraphicsScene::updateScene()
 
     // Verifica se a posição Y da bola passou do limite inferior da tela
     if (mBallItem->gety() >= (YSIZE - (HBALL-50))) {
-        stopScene(); // Para o Timer
+        stopScene();     // Para o Timer
+        emit gameOver(); // Emite sinal GAME OVER
     }
 
     if(mBallItem->collidesWithItem(mPlatformItem)){

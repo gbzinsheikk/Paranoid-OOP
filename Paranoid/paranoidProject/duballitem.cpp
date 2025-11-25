@@ -1,7 +1,7 @@
 #include "duballitem.h"
 #include "DuGlobalDefines.h"
 #include "duutil.h"
-//#include "mainwindow.h"
+#include "mainwindow.h"
 //#include "duarkanoid.h"
 #include <QPainter>
 
@@ -63,10 +63,13 @@ void DuBallItem::move()
 
         else if (my >= (YSIZE - HBALL)) {
             //mvy = -mvy;
-            //my = YSIZE - HBALL - 1;
-            mscore = 0;
+            /*
+            my = YSIZE - HBALL - 1;
             mvx = 0;
             mvy = 0;
+            */
+            mscore = 0;
+            //MainWindow::resetButtonOn();
         }
 
     DuIObjectItem::move();
@@ -78,3 +81,4 @@ void DuBallItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWid
     painter->setBrush(Qt::red);
     painter->drawEllipse(0, 0, mw, mh);
 }
+

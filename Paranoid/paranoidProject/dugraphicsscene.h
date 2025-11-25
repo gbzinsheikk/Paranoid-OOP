@@ -34,7 +34,7 @@ private:
 
 signals:
     void scoreChanged(int newScore);
-
+    void gameOver();
 };
 
 #endif // DUGRAPHICSSCENE_H
