@@ -1,5 +1,6 @@
 #ifndef DUIOBJECTITEM_H
 #define DUIOBJECTITEM_H
+
 #include <QGraphicsItem>
 
 class DuIObjectItem : public QGraphicsItem

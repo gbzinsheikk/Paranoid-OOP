@@ -1,8 +1,12 @@
 #include "mainwindow.h"
 #include "dugraphicsscene.h"
+#include "DuGlobalDefines.h"
+
 #include <QWidget>
 #include <QLCDNumber>
 #include <QLabel>
+#include <QProgressBar>
+//#include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,15 +25,30 @@ MainWindow::MainWindow(QWidget *parent)
     QLabel *scoretext = new QLabel(this);
     scoretext->setFrameStyle(QFrame::Panel | QFrame::Sunken);
     scoretext->setText("Score");
+
     QFont font = scoretext->font();
     font.setBold(true);
     scoretext->setFont(font);
+
+    QLabel *speedLabel = new QLabel("Speed", this);
+    speedLabel->setFont(font);
+    speedLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    speedLabel->setStyleSheet("QLabel { background-color: #00FF00; }");
+
+    mSpeedBar = new QProgressBar(this);
+    mSpeedBar->setRange(0, MAX_SPEED);
+    mSpeedBar->setValue(0);
+    mSpeedBar->setTextVisible(true);
+    mSpeedBar->setFormat("%v");
+
+    mSpeedBar->setStyleSheet("QProgressBar::chunk { background-color: #00FF00; }");
 
     mScoreDisplay = new QLCDNumber(this);
     QPalette paletteScoreDisplay = mScoreDisplay->palette();
     paletteScoreDisplay.setColor(QPalette::WindowText, Qt::red);
     paletteScoreDisplay.setColor(QPalette::Light, QColor(255, 100, 100));
     paletteScoreDisplay.setColor(QPalette::Dark, QColor(255, 100, 100));
+
     mScoreDisplay->setPalette(paletteScoreDisplay);
     mScoreDisplay->display(0);
 
@@ -39,9 +58,9 @@ MainWindow::MainWindow(QWidget *parent)
     mScene = new DuGraphicsScene(this);
     mView->setScene(mScene);
 
-    mBotaoIniciar->setFixedSize(100, 40);
-    mBotaoReset->setFixedSize(100, 40);
-    mBotaoQuitar->setFixedSize(100, 40);
+    mBotaoIniciar->setFixedSize(70, 40);
+    mBotaoReset->setFixedSize(70, 40);
+    mBotaoQuitar->setFixedSize(70, 40);
 
     QHBoxLayout *buttonsLayout = new QHBoxLayout();
     buttonsLayout->addWidget(mBotaoIniciar);
@@ -53,10 +72,15 @@ MainWindow::MainWindow(QWidget *parent)
     buttonsLayout->addWidget(scoretext);
     buttonsLayout->addWidget(mScoreDisplay);
 
+    buttonsLayout->addSpacing(20);
+    buttonsLayout->addWidget(speedLabel);
+    buttonsLayout->addWidget(mSpeedBar);
+
     QVBoxLayout *mainLayout = new QVBoxLayout(centralWidget);
     mainLayout->addLayout(buttonsLayout);
     mainLayout->addWidget(mView);
 
+    connect(mScene, &DuGraphicsScene::speedChanged, this, &MainWindow::updateSpeed);
     connect(mScene, &DuGraphicsScene::scoreChanged, this, &MainWindow::updateScore);
     connect(mBotaoIniciar, &QPushButton::clicked, this, &MainWindow::iniciarJogo);
     connect(mBotaoReset, &QPushButton::clicked, this, &MainWindow::resetarJogo);
@@ -105,4 +129,9 @@ void MainWindow::encerrarJogo()
 void MainWindow::updateScore(int score)
 {
     mScoreDisplay->display(score);
+}
+
+void MainWindow::updateSpeed(int speed)
+{
+    mSpeedBar->setValue(speed);
 }

@@ -34,7 +34,10 @@ private:
 
 signals:
     void scoreChanged(int newScore);
+
     void gameOver();
+
+    void speedChanged(int newSpeed);
 };
 
 #endif // DUGRAPHICSSCENE_H

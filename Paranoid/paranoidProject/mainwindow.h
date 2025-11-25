@@ -1,13 +1,17 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "qlcdnumber.h"
+#include "dugraphicsscene.h"
+
 #include <QMainWindow>
 #include <QPushButton>
 #include <QGraphicsView>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include "qlcdnumber.h"
-#include "dugraphicsscene.h"
+#include <QProgressBar>
+#include <QTimer>
+//#include <QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -25,6 +29,7 @@ public:
     ~MainWindow();
 
     void updateScore(int score);
+    void updateSpeed(int speed);
 
 private slots:
     void iniciarJogo();
@@ -38,8 +43,8 @@ private:
     QPushButton *mBotaoQuitar;
     QLCDNumber *mScoreDisplay;
     QGraphicsView *mView;
-
     DuGraphicsScene *mScene;
+    QProgressBar *mSpeedBar;
 
 protected:
 

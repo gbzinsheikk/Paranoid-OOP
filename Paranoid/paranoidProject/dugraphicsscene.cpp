@@ -82,6 +82,11 @@ void DuGraphicsScene::updateScene()
 
     emit scoreChanged(mBallItem->getScore());
 
+    /* Barra Velocidade */
+
+    int currentSpeedY = DuUtil::abs(mBallItem->getvy());
+    emit speedChanged(currentSpeedY);
+
     /* GAME OVER */
 
     // Verifica se a posição Y da bola passou do limite inferior da tela

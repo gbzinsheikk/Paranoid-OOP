@@ -1,5 +1,6 @@
 #ifndef DUBALLITEM_H
 #define DUBALLITEM_H
+
 #include "duiobjectitem.h"
 
 class DuBallItem : public DuIObjectItem

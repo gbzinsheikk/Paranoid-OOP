@@ -1,8 +1,8 @@
 #include "duballitem.h"
 #include "DuGlobalDefines.h"
 #include "duutil.h"
-#include "mainwindow.h"
-//#include "duarkanoid.h"
+//#include "mainwindow.h"
+
 #include <QPainter>
 
 DuBallItem::DuBallItem(int x, int y, int w, int h, int vx, int vy, int score, QGraphicsItem *parent) : DuIObjectItem(x, y, w, h, vx, vy, score, parent)
