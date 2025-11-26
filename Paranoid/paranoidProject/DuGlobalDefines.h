@@ -17,11 +17,11 @@
 #define HPLATFORM 10
 
 #define VYPLATFORM 0
-#define VXPLATFORM     10.0     // Velocidade Máxima da Plataforma (Base: 15.0)
-#define PLATFORM_ACCEL 1.0      // Aceletação                      (Base: 1.5)
-#define PLATFORM_FRIC  0.5      // Interpolação                    (Base: 0.8)
+#define VXPLATFORM     12.0     // Velocidade Máxima da Plataforma (Base: 15.0)
+#define PLATFORM_ACCEL 1.5      // Aceletação                      (Base: 1.5)
+#define PLATFORM_FRIC  0.8      // Interpolação                    (Base: 0.8)
 
-#define MAX_SPEED      12       // Velocidade Máxima da Bola (Base: 12)
+#define MAX_SPEED      14       // Velocidade Máxima da Bola (Base: 12)
 
 //define INIT_SCORE 0
 
