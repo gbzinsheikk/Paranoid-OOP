@@ -30,10 +30,10 @@ MainWindow::MainWindow(QWidget *parent)
     font.setBold(true);
     scoretext->setFont(font);
 
-    QLabel *speedLabel = new QLabel("  Ball\nSpeed", this);
+    QLabel *speedLabel = new QLabel("Main Ball\n  Speed", this);
     speedLabel->setFont(font);
     speedLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-    speedLabel->setStyleSheet("QLabel { background-color: #00FF00; }");
+    speedLabel->setStyleSheet("QLabel { background-color: #00FF00; }"); // Base: #00FF00 (Verde)
 
     mSpeedBar = new QProgressBar(this);
     mSpeedBar->setRange(0, MAX_SPEED);
@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     mSpeedBar->setTextVisible(true);
     mSpeedBar->setFormat("%v");
 
-    mSpeedBar->setStyleSheet("QProgressBar::chunk { background-color: #00FF00; }");
+    mSpeedBar->setStyleSheet("QProgressBar::chunk { background-color: #00FF00; }"); // Base: #00FF00 (Verde)
 
     mScoreDisplay = new QLCDNumber(this);
     QPalette paletteScoreDisplay = mScoreDisplay->palette();
@@ -85,8 +85,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(mBotaoIniciar, &QPushButton::clicked, this, &MainWindow::iniciarJogo);
     connect(mBotaoReset, &QPushButton::clicked, this, &MainWindow::resetarJogo);
     connect(mBotaoQuitar, &QPushButton::clicked, this, &MainWindow::encerrarJogo);
-
     connect(mScene, &DuGraphicsScene::gameOver, this, &MainWindow::resetButtonOn);
+
     mBotaoReset->setEnabled(false);
 }
 

@@ -7,7 +7,7 @@ class DuPowerUpItem : public DuIObjectItem
 {
 public:
     DuPowerUpItem(int x, int y, int w, int h, int vx, int vy, QGraphicsItem *parent = nullptr);
-    void collected();
+    //void collected();
     //void move();
 
 protected:

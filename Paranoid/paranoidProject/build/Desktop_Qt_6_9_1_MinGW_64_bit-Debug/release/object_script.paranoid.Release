@@ -2,6 +2,7 @@ release/duballitem.o
 release/dugraphicsscene.o
 release/duiobjectitem.o
 release/duplatformitem.o
+release/dupowerupitem.o
 release/duthreadtimer.o
 release/duutil.o
 release/main.o

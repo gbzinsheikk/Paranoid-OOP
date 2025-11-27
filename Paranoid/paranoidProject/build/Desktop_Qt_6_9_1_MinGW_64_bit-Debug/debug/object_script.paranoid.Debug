@@ -2,6 +2,7 @@ debug/duballitem.o
 debug/dugraphicsscene.o
 debug/duiobjectitem.o
 debug/duplatformitem.o
+debug/dupowerupitem.o
 debug/duthreadtimer.o
 debug/duutil.o
 debug/main.o

@@ -2,6 +2,7 @@
 #define DUGRAPHICSSCENE_H
 
 #include <QGraphicsScene>
+#include <QList>
 
 class DuThreadTimer;
 class DuBallItem;
@@ -27,13 +28,17 @@ private:
     void configureObjects();
     void connectObjects();
     void updateScene();
-    void checkCollisions();
+    //void checkCollisions();
+    void checkCollisions(DuBallItem* ball);
     void collectedPwrUp();
 
     DuThreadTimer *mThreadTimer;
-    DuBallItem *mBallItem;
+    //DuBallItem *mBallItem;
+    QList<DuBallItem*> mBallList;
     DuPlatformItem *mPlatformItem;
     DuPowerUpItem *mPowerUpItem;
+
+    int mTotalScore;
 
 signals:
     void scoreChanged(int newScore);

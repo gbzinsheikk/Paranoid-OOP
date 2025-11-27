@@ -1,5 +1,5 @@
 #include "dupowerupitem.h"
-#include "DuGlobalDefines.h"
+//#include "DuGlobalDefines.h"
 //#include "duutil.h"
 
 #include <QPainter>
@@ -10,11 +10,12 @@ DuPowerUpItem::DuPowerUpItem(int x, int y, int w, int h, int vx, int vy, QGraphi
 {
 
 }
-
+/*
 void DuPowerUpItem::collected()
 {
 
 }
+*/
 /*
 void DuPowerUpItem::move()
 {

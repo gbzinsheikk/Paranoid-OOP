@@ -5,8 +5,9 @@
 
 #include <QPainter>
 
-DuBallItem::DuBallItem(int x, int y, int w, int h, int vx, int vy, int score, QGraphicsItem *parent) : DuIObjectItem(x, y, w, h, vx, vy, score, parent)
+DuBallItem::DuBallItem(int x, int y, int w, int h, int vx, int vy, int score, QColor color, QGraphicsItem *parent) : DuIObjectItem(x, y, w, h, vx, vy, score, parent)
 {
+    mColor = color;
 }
 
 void DuBallItem::move()
@@ -78,7 +79,7 @@ void DuBallItem::move()
 
 void DuBallItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->setBrush(Qt::red);
+    painter->setBrush(mColor);
     painter->drawEllipse(0, 0, mw, mh);
 }
 

@@ -23,7 +23,7 @@ public:
     int getvy() const { return mvy; }
 
     void setscore(int score) { mscore=score; }
-    int getscore() const {return mscore;};
+    int getScore() const {return mscore;};
 
     virtual void move();
 

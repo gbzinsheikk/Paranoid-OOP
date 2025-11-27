@@ -42,9 +42,9 @@ template <> constexpr inline auto DuGraphicsScene::qt_create_metaobjectdata<qt_m
         "scoreChanged",
         "",
         "newScore",
-        "gameOver",
         "speedChanged",
-        "newSpeed"
+        "newSpeed",
+        "gameOver"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -52,12 +52,12 @@ template <> constexpr inline auto DuGraphicsScene::qt_create_metaobjectdata<qt_m
         QtMocHelpers::SignalData<void(int)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::Int, 3 },
         }}),
-        // Signal 'gameOver'
-        QtMocHelpers::SignalData<void()>(4, 2, QMC::AccessPublic, QMetaType::Void),
         // Signal 'speedChanged'
-        QtMocHelpers::SignalData<void(int)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Int, 6 },
+        QtMocHelpers::SignalData<void(int)>(4, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 5 },
         }}),
+        // Signal 'gameOver'
+        QtMocHelpers::SignalData<void()>(6, 2, QMC::AccessPublic, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -82,17 +82,17 @@ void DuGraphicsScene::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->scoreChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 1: _t->gameOver(); break;
-        case 2: _t->speedChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 1: _t->speedChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 2: _t->gameOver(); break;
         default: ;
         }
     }
     if (_c == QMetaObject::IndexOfMethod) {
         if (QtMocHelpers::indexOfMethod<void (DuGraphicsScene::*)(int )>(_a, &DuGraphicsScene::scoreChanged, 0))
             return;
-        if (QtMocHelpers::indexOfMethod<void (DuGraphicsScene::*)()>(_a, &DuGraphicsScene::gameOver, 1))
+        if (QtMocHelpers::indexOfMethod<void (DuGraphicsScene::*)(int )>(_a, &DuGraphicsScene::speedChanged, 1))
             return;
-        if (QtMocHelpers::indexOfMethod<void (DuGraphicsScene::*)(int )>(_a, &DuGraphicsScene::speedChanged, 2))
+        if (QtMocHelpers::indexOfMethod<void (DuGraphicsScene::*)()>(_a, &DuGraphicsScene::gameOver, 2))
             return;
     }
 }
@@ -135,14 +135,14 @@ void DuGraphicsScene::scoreChanged(int _t1)
 }
 
 // SIGNAL 1
-void DuGraphicsScene::gameOver()
+void DuGraphicsScene::speedChanged(int _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
+    QMetaObject::activate<void>(this, &staticMetaObject, 1, nullptr, _t1);
 }
 
 // SIGNAL 2
-void DuGraphicsScene::speedChanged(int _t1)
+void DuGraphicsScene::gameOver()
 {
-    QMetaObject::activate<void>(this, &staticMetaObject, 2, nullptr, _t1);
+    QMetaObject::activate(this, &staticMetaObject, 2, nullptr);
 }
 QT_WARNING_POP
