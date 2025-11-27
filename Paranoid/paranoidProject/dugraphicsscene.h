@@ -6,6 +6,7 @@
 class DuThreadTimer;
 class DuBallItem;
 class DuPlatformItem;
+class DuPowerUpItem;
 
 class DuGraphicsScene : public QGraphicsScene
 {
@@ -27,17 +28,17 @@ private:
     void connectObjects();
     void updateScene();
     void checkCollisions();
+    void collectedPwrUp();
 
     DuThreadTimer *mThreadTimer;
     DuBallItem *mBallItem;
     DuPlatformItem *mPlatformItem;
+    DuPowerUpItem *mPowerUpItem;
 
 signals:
     void scoreChanged(int newScore);
-
-    void gameOver();
-
     void speedChanged(int newSpeed);
+    void gameOver();  
 };
 
 #endif // DUGRAPHICSSCENE_H

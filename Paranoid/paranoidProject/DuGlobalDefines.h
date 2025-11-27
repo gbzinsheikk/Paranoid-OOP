@@ -15,13 +15,19 @@
 #define YPLATFORM YSIZE*7/8
 #define WPLATFORM 100
 #define HPLATFORM 10
-
-#define VYPLATFORM 0
+#define VYPLATFORM     0
 #define VXPLATFORM     12.0     // Velocidade Máxima da Plataforma (Base: 15.0)
 #define PLATFORM_ACCEL 1.5      // Aceletação                      (Base: 1.5)
 #define PLATFORM_FRIC  0.8      // Interpolação                    (Base: 0.8)
 
 #define MAX_SPEED      14       // Velocidade Máxima da Bola (Base: 12)
+
+#define XPWRUP XSIZE/3
+#define YPWRUP YSIZE/3
+#define WPWRUP 20
+#define HPWRUP 20
+#define VYPWRUP 1.0
+#define VXPWRUP 0
 
 //define INIT_SCORE 0
 

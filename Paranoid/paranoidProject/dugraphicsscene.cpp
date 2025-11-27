@@ -4,6 +4,7 @@
 #include "duballitem.h"
 #include "duutil.h"
 #include "duplatformitem.h"
+#include "dupowerupitem.h"
 
 #include <QKeyEvent>
 
@@ -35,6 +36,12 @@ void DuGraphicsScene::resetScene()
     mPlatformItem->setPos(XPLATFORM, YPLATFORM);
     //mPlatformItem->mCurrentVx(0);
 
+    mPowerUpItem->setx(XPWRUP);
+    mPowerUpItem->sety(YPWRUP);
+    mPowerUpItem->setvx(VXPWRUP);
+    mPowerUpItem->setvy(VYPWRUP);
+    mPowerUpItem->setPos(XPWRUP, YPWRUP);
+
     update();
 }
 
@@ -59,12 +66,14 @@ void DuGraphicsScene::createObjects()
     mThreadTimer = new DuThreadTimer(MILISECONDS, this);
     mBallItem = new DuBallItem(XBALL, YBALL, WBALL, HBALL, VXBALL, VYBALL, 0.0f);
     mPlatformItem = new DuPlatformItem(XPLATFORM, YPLATFORM, WPLATFORM, HPLATFORM, VXPLATFORM, VYPLATFORM);
+    mPowerUpItem = new DuPowerUpItem(XPWRUP, YPWRUP, WPWRUP, HPWRUP, VXPWRUP, VYPWRUP);
 }
 
 void DuGraphicsScene::configureObjects()
 {
     addItem(mBallItem);
     addItem(mPlatformItem);
+    addItem(mPowerUpItem);
     addRect(0.0, 0.0, XSIZE, YSIZE, QPen(QColor(Qt::black)));
 }
 
@@ -77,19 +86,20 @@ void DuGraphicsScene::updateScene()
 {
     mBallItem->move();
     mPlatformItem->move();
+    mPowerUpItem->move();
 
     /* Atualiza Score */
 
     emit scoreChanged(mBallItem->getScore());
 
-    /* Barra Velocidade */
+    /* Atualiza Barra Velocidade */
 
     int currentSpeedY = DuUtil::abs(mBallItem->getvy());
     emit speedChanged(currentSpeedY);
 
     /* GAME OVER */
 
-    // Verifica se a posição Y da bola passou do limite inferior da tela
+    // Verifica se a posição Y da bola passou do limite inferior
     if (mBallItem->gety() >= (YSIZE - (HBALL-50))) {
         stopScene();     // Para o Timer
         emit gameOver(); // Emite sinal GAME OVER
@@ -98,6 +108,12 @@ void DuGraphicsScene::updateScene()
     if(mBallItem->collidesWithItem(mPlatformItem)){
         checkCollisions();
     }
+
+    if(mPowerUpItem->collidesWithItem(mPlatformItem)){
+        // Coleta PowerUp
+        collectedPwrUp();
+    }
+
     update();
 }
 
@@ -128,5 +144,14 @@ void DuGraphicsScene::checkCollisions()
         // Atualiza a bola
         mBallItem->setvx(bvx);
         mBallItem->setvy(bvy);
+}
+
+void DuGraphicsScene::collectedPwrUp()
+{
+    // Spawna duas novas bolas
+    mBallItem = new DuBallItem(XBALL, YBALL, WBALL, HBALL, VXBALL, VYBALL, 0.0f);
+    mBallItem = new DuBallItem(XBALL, YBALL, WBALL, HBALL, VXBALL, VYBALL, 0.0f);
+    // Deleta PowerUp coletado
+    // [***]
 }
 

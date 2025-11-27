@@ -13,6 +13,7 @@ SOURCES += \
     dugraphicsscene.cpp \
     duiobjectitem.cpp \
     duplatformitem.cpp \
+    dupowerupitem.cpp \
     duthreadtimer.cpp \
     duutil.cpp \
     main.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     dugraphicsscene.h \
     duiobjectitem.h \
     duplatformitem.h \
+    dupowerupitem.h \
     duthreadtimer.h \
     duutil.h \
     mainwindow.h

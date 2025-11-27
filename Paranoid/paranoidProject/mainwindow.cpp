@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     font.setBold(true);
     scoretext->setFont(font);
 
-    QLabel *speedLabel = new QLabel("Speed", this);
+    QLabel *speedLabel = new QLabel("  Ball\nSpeed", this);
     speedLabel->setFont(font);
     speedLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
     speedLabel->setStyleSheet("QLabel { background-color: #00FF00; }");
@@ -69,12 +69,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     buttonsLayout->addStretch();
 
-    buttonsLayout->addWidget(scoretext);
-    buttonsLayout->addWidget(mScoreDisplay);
-
     buttonsLayout->addSpacing(20);
     buttonsLayout->addWidget(speedLabel);
     buttonsLayout->addWidget(mSpeedBar);
+
+    buttonsLayout->addWidget(scoretext);
+    buttonsLayout->addWidget(mScoreDisplay);
 
     QVBoxLayout *mainLayout = new QVBoxLayout(centralWidget);
     mainLayout->addLayout(buttonsLayout);
