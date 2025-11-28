@@ -6,7 +6,7 @@
 class DuIObjectItem : public QGraphicsItem
 {
 public:
-    DuIObjectItem(int x, int y, int w, int h, int vx, int vy, int score, QGraphicsItem *parent = nullptr);
+    DuIObjectItem(int x, int y, int w, int h, float vx, float vy, int score, QGraphicsItem *parent = nullptr);
 
     void setx(int x) { mx=x; }
     void sety(int y) { my=y; }
@@ -19,8 +19,8 @@ public:
     int gety() const { return my; }
     int getw() const { return mw; }
     int geth() const { return mh; }
-    int getvx() const { return mvx; }
-    int getvy() const { return mvy; }
+    float getvx() const { return mvx; }
+    float getvy() const { return mvy; }
 
     void setscore(int score) { mscore=score; }
     int getScore() const {return mscore;};
@@ -32,7 +32,7 @@ protected:
 
     int mx, my;
     int mw, mh;
-    int mvx, mvy;
+    float mvx, mvy;
     float mscore;
 
 };

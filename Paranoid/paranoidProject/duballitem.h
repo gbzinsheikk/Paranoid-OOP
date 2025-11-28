@@ -8,7 +8,7 @@
 class DuBallItem : public DuIObjectItem
 {
 public:
-    DuBallItem(int x, int y, int w, int h, int vx, int vy, int score, QColor color = Qt::green, QGraphicsItem *parent = nullptr);
+    DuBallItem(int x, int y, int w, int h, float vx, float vy, int score, QColor color = Qt::green, QGraphicsItem *parent = nullptr);
     void move() override;
     //int getScore() const { return (int)mscore; }
 

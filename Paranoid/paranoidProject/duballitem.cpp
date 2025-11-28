@@ -5,7 +5,7 @@
 
 #include <QPainter>
 
-DuBallItem::DuBallItem(int x, int y, int w, int h, int vx, int vy, int score, QColor color, QGraphicsItem *parent) : DuIObjectItem(x, y, w, h, vx, vy, score, parent)
+DuBallItem::DuBallItem(int x, int y, int w, int h, float vx, float vy, int score, QColor color, QGraphicsItem *parent) : DuIObjectItem(x, y, w, h, vx, vy, score, parent)
 {
     mColor = color;
 }
@@ -16,21 +16,21 @@ void DuBallItem::move()
 
         if(mx <= 0 || mx >= (XSIZE - WBALL)){
 
+            // Inversão
+            mvx = -mvx;
+
             // Aceleração Linear
             if(DuUtil::abs(mvx) < MAX_SPEED){
                 if(mvx > 0){
                     mvx++;
-
-                }  else {
+                }
+                else {
                     mvx--;
-
                 }
             }
+
             // Aumenta Score
             mscore += 25;
-
-            // Inversão
-            mvx = -mvx;
 
             if(mx <= 0) mx = 1;
             else mx = XSIZE - WBALL - 1;
@@ -44,12 +44,12 @@ void DuBallItem::move()
             if(DuUtil::abs(mvy) < MAX_SPEED){
                 if(mvy > 0){
                     mvy++;
-
-                }  else {
-                    mvy--;
-
                 }
-            }            
+                else {
+                    mvy--;
+                }
+            }
+
             // Aumenta Score
             mscore += 500;
 

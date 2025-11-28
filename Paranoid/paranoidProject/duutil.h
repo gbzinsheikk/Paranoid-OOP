@@ -1,11 +1,10 @@
 #ifndef DUUTIL_H
 #define DUUTIL_H
 
-
 class DuUtil
 {
 public:
-    static int abs(int value);
+    static float abs(float value);
 };
 
 #endif // DUUTIL_H

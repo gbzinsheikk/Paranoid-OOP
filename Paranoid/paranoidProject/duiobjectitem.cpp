@@ -1,6 +1,6 @@
 #include "duiobjectitem.h"
 
-DuIObjectItem::DuIObjectItem(int x, int y, int w, int h, int vx, int vy, int score, QGraphicsItem *parent) : QGraphicsItem(parent)
+DuIObjectItem::DuIObjectItem(int x, int y, int w, int h, float vx, float vy, int score, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
     mx = x;
     my = y;

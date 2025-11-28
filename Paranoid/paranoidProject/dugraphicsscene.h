@@ -37,8 +37,12 @@ private:
     QList<DuBallItem*> mBallList;
     DuPlatformItem *mPlatformItem;
     DuPowerUpItem *mPowerUpItem;
+    QList<QGraphicsItem*> mWallList;
 
     int mTotalScore;
+    int xmin;
+    int xmax;
+    int xrandomNumber;
 
 signals:
     void scoreChanged(int newScore);
