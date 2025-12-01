@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     duballitem.cpp \
+    dublockitem.cpp \
     dugraphicsscene.cpp \
     duiobjectitem.cpp \
     duplatformitem.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 HEADERS += \
     DuGlobalDefines.h \
     duballitem.h \
+    dublockitem.h \
     dugraphicsscene.h \
     duiobjectitem.h \
     duplatformitem.h \

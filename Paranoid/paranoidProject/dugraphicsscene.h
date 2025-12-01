@@ -1,6 +1,7 @@
 #ifndef DUGRAPHICSSCENE_H
 #define DUGRAPHICSSCENE_H
 
+#include "dublockitem.h"
 #include <QGraphicsScene>
 #include <QList>
 
@@ -38,6 +39,8 @@ private:
     DuPlatformItem *mPlatformItem;
     DuPowerUpItem *mPowerUpItem;
     QList<QGraphicsItem*> mWallList;
+    QList<duBlockItem*> mBlockList;
+
 
     int mTotalScore;
     int xmin;

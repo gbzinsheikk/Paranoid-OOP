@@ -5,6 +5,7 @@
 #include "duutil.h"
 #include "duplatformitem.h"
 #include "dupowerupitem.h"
+#include "dublockitem.h"
 #include <QRandomGenerator>
 
 #include <QKeyEvent>
@@ -56,16 +57,16 @@ void DuGraphicsScene::resetScene()
 
     // Limpa paredes extras
 
-    for(QGraphicsItem* wall : mWallList) {
-        removeItem(wall);
-        delete wall;
-    }
-    mWallList.clear();
+    // for(QGraphicsItem* wall : mWallList) {
+    //     removeItem(wall);
+    //     delete wall;
+    // }
+    // mWallList.clear();
 
     // Recria paredes iniciais
-    xrandomNumber = QRandomGenerator::global()->bounded(xmin, xmax);
-    QGraphicsRectItem* block = addRect(xrandomNumber, 100, 300, 50, QPen(Qt::black), QBrush(Qt::white));
-    mWallList.append(block);
+    // xrandomNumber = QRandomGenerator::global()->bounded(xmin, xmax);
+    // QGraphicsRectItem* block = addRect(xrandomNumber, 100, 300, 50, QPen(Qt::black), QBrush(Qt::white));
+    // mWallList.append(block);
 
     /*
     QGraphicsRectItem* block2 = addRect(350, 100, 150, 50, QPen(Qt::black), QBrush(Qt::white));
@@ -128,13 +129,30 @@ void DuGraphicsScene::configureObjects()
     addItem(mPowerUpItem);
     addRect(0.0, 0.0, XSIZE, YSIZE, QPen(QColor(Qt::black)));
 
-    QGraphicsRectItem* wall = addRect(0, 100, 150, 50, QPen(Qt::black), QBrush(Qt::white));
-    mWallList.append(wall);
+    // QGraphicsRectItem* wall = addRect(0, 100, 150, 50, QPen(Qt::black), QBrush(Qt::white));
+    // mWallList.append(wall);
 
-    QGraphicsRectItem* wall2 = addRect(350, 100, 150, 50, QPen(Qt::black), QBrush(Qt::white));
-    mWallList.append(wall2);
+    // QGraphicsRectItem* wall2 = addRect(350, 100, 150, 50, QPen(Qt::black), QBrush(Qt::white));
+    // mWallList.append(wall2);
+
+    // duBlockItem* block : mBlockList;
+
+    for (int i = 0; i < 5; ++i) {
+        for (int j = 0; j < 3; ++j) {
+
+            int x = 50 + (i * 80);
+            int y = 50 + (j * 40);
+            int vida = 3 - j;
+
+            duBlockItem* newBlock = new duBlockItem(vida, x, y, 70, 30, Qt::green);
+
+            // Adiciona na Cena E na Lista
+            addItem(newBlock);
+            mBlockList.append(newBlock);
+        }
+    }
+
 }
-
 void DuGraphicsScene::connectObjects()
 {
     connect(mThreadTimer, &DuThreadTimer :: timeOut, this, &DuGraphicsScene :: updateScene);
@@ -182,10 +200,10 @@ void DuGraphicsScene::updateScene()
         ball->move();
 
         // Checa colisão com os bricks
-        for (int j = mWallList.size() - 1; j >= 0; --j) {
-            QGraphicsItem* wall = mWallList[j];
+        for (int j = mBlockList.size() - 1; j >= 0; --j) {
+            duBlockItem* block = mBlockList[j];
 
-            if (ball->collidesWithItem(wall)) {
+            if (ball->collidesWithItem(block)) {
                 /*
                 ball->setvy(-ball->getvy());
                 removeItem(brick);
@@ -195,7 +213,7 @@ void DuGraphicsScene::updateScene()
                 */
 
                 QRectF ballRect = ball->sceneBoundingRect();
-                QRectF wallRect = wall->sceneBoundingRect();
+                QRectF wallRect = block->sceneBoundingRect();
 
                 // Calcula o retângulo da área da interseção
                 QRectF intersection = ballRect.intersected(wallRect);
@@ -208,12 +226,28 @@ void DuGraphicsScene::updateScene()
                 else {
                     ball->setvx(-ball->getvx());
                 }
+
                 /*
                 removeItem(wall);
                 mBrickList.removeAt(j);
                 delete wall;
                 mTotalScore += 100;
                 */
+
+                bool quebrou = block->atingir();
+
+                // Verifica se deve destruir
+                if (quebrou) {
+
+                    removeItem(block);
+                    mBlockList.removeAt(j);
+                    mTotalScore += 100; // Ou block->getScore()
+                    delete block;
+                }
+                else {
+                    // Se não quebrou, ele mudou de cor
+                    block->update();
+                }
                 break;
             }
         }
