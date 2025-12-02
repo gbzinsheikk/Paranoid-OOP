@@ -41,6 +41,8 @@ void DuGraphicsScene::resetScene()
 
     mTotalScore = 0;
     emit scoreChanged(mTotalScore);
+    mPowerUpItem->hide();
+    mPowerUpItem->setPos(-1000, -1000);
 
     // Limpa bolas extras
     for(DuBallItem* ball : mBallList) {
@@ -50,23 +52,41 @@ void DuGraphicsScene::resetScene()
     mBallList.clear();
 
     // Recria a bola inicial
-    xrandomNumber = QRandomGenerator::global()->bounded(xmin, xmax);
-    DuBallItem* newBall = new DuBallItem(xrandomNumber, YBALL, WBALL, HBALL, VXBALL, VYBALL, 0.0f, Qt::green);
+    //xrandomNumber = QRandomGenerator::global()->bounded(xmin, xmax);
+    DuBallItem* newBall = new DuBallItem((XPLATFORM+35), (YPLATFORM-20), WBALL, HBALL, VXBALL, -VYBALL, 0.0f, Qt::green);
     addItem(newBall);
     mBallList.append(newBall);
 
-    // Limpa paredes extras
+    // Limpa blocos extras
+     for(QGraphicsItem* block : mBlockList) {
+         removeItem(block);
+         delete block;
+    }
+    mBlockList.clear();
 
-    // for(QGraphicsItem* wall : mWallList) {
-    //     removeItem(wall);
-    //     delete wall;
-    // }
-    // mWallList.clear();
+    // Recria blocos iniciais
+    for (int i = 0; i < 5; ++i) {
+        for (int j = 0; j < 3; ++j) {
 
-    // Recria paredes iniciais
-    // xrandomNumber = QRandomGenerator::global()->bounded(xmin, xmax);
-    // QGraphicsRectItem* block = addRect(xrandomNumber, 100, 300, 50, QPen(Qt::black), QBrush(Qt::white));
-    // mWallList.append(block);
+            int x = 50 + (i * 80);
+            int y = 50 + (j * 40);
+            int vida = 3 - j;
+
+            duBlockItem* newBlock = new duBlockItem(vida, x, y, 70, 30, Qt::green);
+            addItem(newBlock);
+            mBlockList.append(newBlock);
+        }
+        for (int j = 0; j < 2; ++j) {
+
+            int x = 50 + (i * 80);
+            int y = 50 + (j * 40);
+            int vida = 3 - j;
+
+            duBlockItem* newBlock = new duBlockItem(vida, x, y+120, 70, 30, Qt::green);
+            addItem(newBlock);
+            mBlockList.append(newBlock);
+        }
+    }
 
     /*
     QGraphicsRectItem* block2 = addRect(350, 100, 150, 50, QPen(Qt::black), QBrush(Qt::white));
@@ -78,15 +98,6 @@ void DuGraphicsScene::resetScene()
     mPlatformItem->setvx(VXPLATFORM);
     mPlatformItem->setPos(XPLATFORM, YPLATFORM);
     //mPlatformItem->mCurrentVx(0);
-
-    xrandomNumber = QRandomGenerator::global()->bounded(xmin, xmax);
-    mPowerUpItem->setx(xrandomNumber);
-    mPowerUpItem->sety(YPWRUP);
-    mPowerUpItem->setvx(VXPWRUP);
-    mPowerUpItem->setvy(VYPWRUP);
-    mPowerUpItem->setPos(XPWRUP, YPWRUP);
-
-    mPowerUpItem->show();
 
     update();
 }
@@ -111,8 +122,8 @@ void DuGraphicsScene::createObjects()
 { 
     mThreadTimer = new DuThreadTimer(MILISECONDS, this);
     //mBallItem = new DuBallItem(XBALL, YBALL, WBALL, HBALL, VXBALL, VYBALL, 0.0f);
-    xrandomNumber = QRandomGenerator::global()->bounded(xmin, xmax);
-    DuBallItem* firstBall = new DuBallItem(xrandomNumber, YBALL, WBALL, HBALL, VXBALL, VYBALL, 0.0f, Qt::green);
+    //xrandomNumber = QRandomGenerator::global()->bounded(xmin, xmax);
+    DuBallItem* firstBall = new DuBallItem((XPLATFORM+35), (YPLATFORM-20), WBALL, HBALL, VXBALL, -VYBALL, 0.0f, Qt::green);
     mBallList.append(firstBall);
     mPlatformItem = new DuPlatformItem(XPLATFORM, YPLATFORM, WPLATFORM, HPLATFORM, VXPLATFORM, VYPLATFORM);
     xrandomNumber = QRandomGenerator::global()->bounded(xmin, xmax);
@@ -128,6 +139,7 @@ void DuGraphicsScene::configureObjects()
     addItem(mPlatformItem);
     addItem(mPowerUpItem);
     addRect(0.0, 0.0, XSIZE, YSIZE, QPen(QColor(Qt::black)));
+    mPowerUpItem->hide();
 
     // QGraphicsRectItem* wall = addRect(0, 100, 150, 50, QPen(Qt::black), QBrush(Qt::white));
     // mWallList.append(wall);
@@ -145,8 +157,16 @@ void DuGraphicsScene::configureObjects()
             int vida = 3 - j;
 
             duBlockItem* newBlock = new duBlockItem(vida, x, y, 70, 30, Qt::green);
+            addItem(newBlock);
+            mBlockList.append(newBlock);
+        }
+        for (int j = 0; j < 2; ++j) {
 
-            // Adiciona na Cena E na Lista
+            int x = 50 + (i * 80);
+            int y = 50 + (j * 40);
+            int vida = 3 - j;
+
+            duBlockItem* newBlock = new duBlockItem(vida, x, y+120, 70, 30, Qt::green);
             addItem(newBlock);
             mBlockList.append(newBlock);
         }
@@ -161,7 +181,15 @@ void DuGraphicsScene::connectObjects()
 void DuGraphicsScene::updateScene()
 {
     mPlatformItem->move();
-    mPowerUpItem->move();
+    //mPowerUpItem->move();
+
+    if (mPowerUpItem->isVisible()) {
+        mPowerUpItem->move();
+
+        if (mPowerUpItem->gety() > YSIZE) {
+            mPowerUpItem->hide();
+        }
+    }
 
     /* LÓGICA DA BOLA ANTIGA (P/ APENAS UMA BOLA) */
 
@@ -239,10 +267,52 @@ void DuGraphicsScene::updateScene()
                 // Verifica se deve destruir
                 if (quebrou) {
 
+                    /* Aceleração linear */
+                    if(QRandomGenerator::global()->bounded(0, 100) < 40){
+                        int bvx = ball->getvx();
+                        int bvy = ball->getvy();
+
+                        // Acelera X
+                        if(DuUtil::abs(bvx) < MAX_SPEED){
+                            if (bvx > 0) bvx++; else bvx--;
+                        }
+
+                        // Acelera Y
+                        if(DuUtil::abs(bvy) < MAX_SPEED){
+                            if (bvy > 0) bvy++; else bvy--;
+                        }
+                        ball->setvx(bvx);
+                        ball->setvy(bvy);
+                    }
+
                     removeItem(block);
                     mBlockList.removeAt(j);
-                    mTotalScore += 100; // Ou block->getScore()
+                    mTotalScore += 1000;
                     delete block;
+
+                    /* Spawn do PowerUp */
+
+                    if (!mPowerUpItem->isVisible()) {
+
+                        if (QRandomGenerator::global()->bounded(0, 100) < 10) {
+
+                            int blockX = block->getx();
+                            int blockY = block->gety();
+                            int blockW = block->getw();
+
+                            // Posiciona o PowerUp no centro do bloco
+                            // (X do bloco + metade da largura do bloco) - (metade da largura do PowerUp)
+                            int pwrX = blockX + (blockW / 2) - (mPowerUpItem->getw() / 2);
+                            int pwrY = blockY;
+
+                            mPowerUpItem->setx(pwrX);
+                            mPowerUpItem->sety(pwrY);
+                            mPowerUpItem->setvx(0);
+                            mPowerUpItem->setvy(VYPWRUP);
+                            mPowerUpItem->setPos(pwrX, pwrY);
+                            mPowerUpItem->show();
+                        }
+                    }
                 }
                 else {
                     // Se não quebrou, ele mudou de cor
@@ -341,11 +411,11 @@ void DuGraphicsScene::collectedPwrUp()
     //for(int i = 0; i < 2; i++) {
 
         // Cria nova(s) bola(s)
-        DuBallItem* newBall = new DuBallItem(xrandomNumber, (YPLATFORM-10), WBALL, HBALL, VXBALL, -VYBALL, 0.0f, Qt::yellow);
+        DuBallItem* newBall = new DuBallItem(XPLATFORM, (YPLATFORM-10), WBALL, HBALL, VXBALL, -VYBALL, 0.0f, Qt::yellow);
         addItem(newBall);
         mBallList.append(newBall);
 
-        DuBallItem* newBall2 = new DuBallItem((xrandomNumber-20), (YPLATFORM-30), WBALL, HBALL, -VXBALL, -VYBALL, 0.0f, Qt::yellow);
+        DuBallItem* newBall2 = new DuBallItem((XPLATFORM-20), (YPLATFORM-30), WBALL, HBALL, -VXBALL, -VYBALL, 0.0f, Qt::yellow);
         addItem(newBall2);
         mBallList.append(newBall2);
 

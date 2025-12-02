@@ -20,6 +20,7 @@ void DuBallItem::move()
             mvx = -mvx;
 
             // Aceleração Linear
+            /*
             if(DuUtil::abs(mvx) < MAX_SPEED){
                 if(mvx > 0){
                     mvx++;
@@ -28,9 +29,10 @@ void DuBallItem::move()
                     mvx--;
                 }
             }
+            */
 
             // Aumenta Score
-            mscore += 25;
+            mscore += 10;
 
             if(mx <= 0) mx = 1;
             else mx = XSIZE - WBALL - 1;
@@ -40,6 +42,7 @@ void DuBallItem::move()
 
         if (my <= 0){
 
+            /*
             // Aceleração Linear
             if(DuUtil::abs(mvy) < MAX_SPEED){
                 if(mvy > 0){
@@ -49,9 +52,10 @@ void DuBallItem::move()
                     mvy--;
                 }
             }
+            */
 
             // Aumenta Score
-            mscore += 500;
+            mscore += 5;
 
             // Inversão
             mvy = -mvy;
