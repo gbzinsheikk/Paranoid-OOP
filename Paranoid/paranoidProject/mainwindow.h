@@ -5,6 +5,7 @@
 #include "dugraphicsscene.h"
 
 #include <QMainWindow>
+#include <QLabel>
 #include <QPushButton>
 #include <QGraphicsView>
 #include <QVBoxLayout>
@@ -36,12 +37,16 @@ private slots:
     void encerrarJogo();
     void resetarJogo();
     void resetButtonOn();
+    void atualizarBotoes();
+    void ganhouJogo();
 
 private:
     QPushButton *mBotaoIniciar;
     QPushButton *mBotaoReset;
     QPushButton *mBotaoQuitar;
     QLCDNumber *mScoreDisplay;
+    QLCDNumber *mFinalScore;
+    QLabel *mWinLabel;
     QGraphicsView *mView;
     DuGraphicsScene *mScene;
     QProgressBar *mSpeedBar;

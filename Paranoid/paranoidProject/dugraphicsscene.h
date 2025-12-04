@@ -2,8 +2,11 @@
 #define DUGRAPHICSSCENE_H
 
 #include "dublockitem.h"
+
 #include <QGraphicsScene>
+#include <QPushButton>
 #include <QList>
+#include <QGraphicsView>
 
 class DuThreadTimer;
 class DuBallItem;
@@ -38,7 +41,7 @@ private:
     QList<DuBallItem*> mBallList;
     DuPlatformItem *mPlatformItem;
     DuPowerUpItem *mPowerUpItem;
-    QList<QGraphicsItem*> mWallList;
+    //QList<QGraphicsItem*> mWallList;
     QList<duBlockItem*> mBlockList;
 
 
@@ -50,7 +53,10 @@ private:
 signals:
     void scoreChanged(int newScore);
     void speedChanged(int newSpeed);
-    void gameOver();  
+    void gameWin();
+    void gameOver();
+    void gameReset();
+    void gameQuit();
 };
 
 #endif // DUGRAPHICSSCENE_H

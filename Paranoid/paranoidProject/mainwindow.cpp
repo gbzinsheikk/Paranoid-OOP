@@ -6,6 +6,7 @@
 #include <QLCDNumber>
 #include <QLabel>
 #include <QProgressBar>
+#include <QKeyEvent>
 //#include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -20,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     mBotaoIniciar = new QPushButton("PLAY", this);
     mBotaoReset = new QPushButton("RESET", this);   
-    mBotaoQuitar = new QPushButton("QUIT", this);
+    mBotaoQuitar = new QPushButton("QUIT", this);  
 
     QLabel *scoretext = new QLabel(this);
     scoretext->setFrameStyle(QFrame::Panel | QFrame::Sunken);
@@ -62,6 +63,22 @@ MainWindow::MainWindow(QWidget *parent)
     mBotaoReset->setFixedSize(70, 40);
     mBotaoQuitar->setFixedSize(70, 40);
 
+    mWinLabel = new QLabel("YOU WIN!", this);
+    mWinLabel->setGeometry(125, 200, 300, 60);
+    mWinLabel->setAlignment(Qt::AlignCenter);
+    QFont winFont = mWinLabel->font();
+    winFont.setPointSize(30);
+    winFont.setBold(true);
+    mWinLabel->setFont(winFont);
+    mWinLabel->setStyleSheet("QLabel { color : green; background-color: white; border: 2px solid black; }");
+    mWinLabel->hide();
+
+    mFinalScore = new QLCDNumber(this);
+    mFinalScore->setGeometry(175, 270, 200, 80);
+    mFinalScore->setPalette(paletteScoreDisplay);
+    mFinalScore->setDigitCount(5);
+    mFinalScore->hide();
+
     QHBoxLayout *buttonsLayout = new QHBoxLayout();
     buttonsLayout->addWidget(mBotaoIniciar);
     buttonsLayout->addWidget(mBotaoReset);
@@ -86,6 +103,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(mBotaoReset, &QPushButton::clicked, this, &MainWindow::resetarJogo);
     connect(mBotaoQuitar, &QPushButton::clicked, this, &MainWindow::encerrarJogo);
     connect(mScene, &DuGraphicsScene::gameOver, this, &MainWindow::resetButtonOn);
+    connect(mScene, &DuGraphicsScene::gameReset, this, &MainWindow::atualizarBotoes);
+    connect(mScene, &DuGraphicsScene::gameWin, this, &MainWindow::ganhouJogo);
+    connect(mScene, &DuGraphicsScene::gameQuit, this, &MainWindow::encerrarJogo);
 
     mBotaoReset->setEnabled(false);
 }
@@ -102,6 +122,9 @@ void MainWindow::iniciarJogo()
     mView->setFocus();
     mBotaoReset->setEnabled(false);
     mBotaoIniciar->setEnabled(false);
+
+    mWinLabel->hide();
+    mFinalScore->hide();
 }
 
 void MainWindow::resetarJogo()
@@ -112,6 +135,9 @@ void MainWindow::resetarJogo()
     mView->setFocus();
     mBotaoIniciar->setEnabled(true);
     mBotaoReset->setEnabled(false);
+
+    mWinLabel->hide();
+    mFinalScore->hide();
 }
 
 void MainWindow::resetButtonOn()
@@ -134,4 +160,27 @@ void MainWindow::updateScore(int score)
 void MainWindow::updateSpeed(int speed)
 {
     mSpeedBar->setValue(speed);
+}
+
+void MainWindow::atualizarBotoes()
+{
+    mBotaoIniciar->setEnabled(false);
+    mBotaoReset->setEnabled(false);
+
+    mWinLabel->hide();
+    mFinalScore->hide();
+    mView->setFocus();
+}
+
+void MainWindow::ganhouJogo()
+{
+    mBotaoIniciar->setEnabled(false);
+    mBotaoReset->setEnabled(true);
+
+    mFinalScore->display(mScoreDisplay->intValue());
+    mWinLabel->raise();
+    mFinalScore->raise();
+    mWinLabel->show();
+    mFinalScore->show();
+    mView->setFocus();
 }

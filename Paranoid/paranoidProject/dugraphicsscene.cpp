@@ -6,8 +6,9 @@
 #include "duplatformitem.h"
 #include "dupowerupitem.h"
 #include "dublockitem.h"
-#include <QRandomGenerator>
+#include "mainwindow.h"
 
+#include <QRandomGenerator>
 #include <QKeyEvent>
 
 DuGraphicsScene::DuGraphicsScene(QObject *parent) : QGraphicsScene(0.0 , 0.0, XSIZE, YSIZE, parent)
@@ -100,6 +101,7 @@ void DuGraphicsScene::resetScene()
     //mPlatformItem->mCurrentVx(0);
 
     update();
+    emit gameReset();
 }
 
 void DuGraphicsScene::stopScene()
@@ -110,8 +112,23 @@ void DuGraphicsScene::stopScene()
 void DuGraphicsScene::keyPressEvent(QKeyEvent *event)
 {
     mPlatformItem->keyPress(event->key());
+    if (event->key() == Qt::Key_Space) {
+        if (mBallList.isEmpty()) {
+            resetScene();
+            mThreadTimer->start();
+        }
+        /*if (mBallList.size() >> 0) {
+            mThreadTimer->start();
+        }*/
+        if (mBallList.size() >> 0 && mBlockList.isEmpty()){
+            resetScene();
+            mThreadTimer->start();
+        }
+    }
+    if(event->key() == Qt::Key_Escape){
+        emit gameQuit();
+    }
 }
-
 void DuGraphicsScene::keyReleaseEvent(QKeyEvent *event)
 {
     mPlatformItem->keyRelease(event->key());
@@ -294,7 +311,7 @@ void DuGraphicsScene::updateScene()
 
                     if (!mPowerUpItem->isVisible()) {
 
-                        if (QRandomGenerator::global()->bounded(0, 100) < 10) {
+                        if (QRandomGenerator::global()->bounded(0, 100) < 90) {
 
                             int blockX = block->getx();
                             int blockY = block->gety();
@@ -332,7 +349,7 @@ void DuGraphicsScene::updateScene()
         // Checa colisão com a plataforma
         if(ball->collidesWithItem(mPlatformItem)){
             checkCollisions(ball);
-        }
+        }     
 
         // Checa GAME OVER (individual)
         if (ball->gety() >= (YSIZE - (HBALL-50))) {
@@ -341,6 +358,14 @@ void DuGraphicsScene::updateScene()
             delete ball;
             i--;
         }
+    }
+
+    // Checa GAME WIN
+
+    if(mBlockList.isEmpty()){
+        //mBallList.clear();
+        stopScene();
+        emit gameWin();
     }
 
     // Se a lista ficou vazia -> GAME OVER REAL

@@ -19,7 +19,7 @@
 #define VYPLATFORM     0
 #define VXPLATFORM     15.0     // Velocidade Máxima da Plataforma (Base: 15.0)
 #define PLATFORM_ACCEL 1.5      // Aceleração                      (Base: 1.5)
-#define PLATFORM_FRIC  1.0      // Interpolação                    (Base: 0.8)
+#define PLATFORM_FRIC  1.4      // Interpolação                    (Base: 0.8)
 
 #define XPWRUP XSIZE/3
 #define YPWRUP -520
