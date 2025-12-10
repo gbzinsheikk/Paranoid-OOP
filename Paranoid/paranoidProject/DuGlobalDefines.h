@@ -10,7 +10,7 @@
 #define HBALL 20
 #define VXBALL 3
 #define VYBALL 3
-#define MAX_SPEED      12       // Velocidade Máxima da Bola (Base: 12)
+#define MAX_SPEED     4     // Velocidade Máxima da Bola (Base: 12)
 
 #define XPLATFORM XSIZE*1/2
 #define YPLATFORM YSIZE*7/8
@@ -20,6 +20,8 @@
 #define VXPLATFORM     15.0     // Velocidade Máxima da Plataforma (Base: 15.0)
 #define PLATFORM_ACCEL 1.5      // Aceleração                      (Base: 1.5)
 #define PLATFORM_FRIC  1.4      // Interpolação                    (Base: 0.8)
+#define WPLATFORM 100
+#define WPLATFORM_EXPANDED 150
 
 #define XPWRUP XSIZE/3
 #define YPWRUP -520

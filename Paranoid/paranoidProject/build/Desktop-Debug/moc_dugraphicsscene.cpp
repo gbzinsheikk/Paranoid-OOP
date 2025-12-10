@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'dugraphicsscene.h'
 **
-** Created by: The Qt Meta Object Compiler version 69 (Qt 6.9.2)
+** Created by: The Qt Meta Object Compiler version 69 (Qt 6.10.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -18,7 +18,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'dugraphicsscene.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 69
-#error "This file was generated using the moc from 6.9.2. It"
+#error "This file was generated using the moc from 6.10.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -44,7 +44,10 @@ template <> constexpr inline auto DuGraphicsScene::qt_create_metaobjectdata<qt_m
         "newScore",
         "speedChanged",
         "newSpeed",
-        "gameOver"
+        "gameWin",
+        "gameOver",
+        "gameReset",
+        "gameQuit"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -56,8 +59,14 @@ template <> constexpr inline auto DuGraphicsScene::qt_create_metaobjectdata<qt_m
         QtMocHelpers::SignalData<void(int)>(4, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::Int, 5 },
         }}),
-        // Signal 'gameOver'
+        // Signal 'gameWin'
         QtMocHelpers::SignalData<void()>(6, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'gameOver'
+        QtMocHelpers::SignalData<void()>(7, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'gameReset'
+        QtMocHelpers::SignalData<void()>(8, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'gameQuit'
+        QtMocHelpers::SignalData<void()>(9, 2, QMC::AccessPublic, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -81,9 +90,12 @@ void DuGraphicsScene::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
     auto *_t = static_cast<DuGraphicsScene *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->scoreChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 1: _t->speedChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 2: _t->gameOver(); break;
+        case 0: _t->scoreChanged((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 1: _t->speedChanged((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 2: _t->gameWin(); break;
+        case 3: _t->gameOver(); break;
+        case 4: _t->gameReset(); break;
+        case 5: _t->gameQuit(); break;
         default: ;
         }
     }
@@ -92,7 +104,13 @@ void DuGraphicsScene::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
             return;
         if (QtMocHelpers::indexOfMethod<void (DuGraphicsScene::*)(int )>(_a, &DuGraphicsScene::speedChanged, 1))
             return;
-        if (QtMocHelpers::indexOfMethod<void (DuGraphicsScene::*)()>(_a, &DuGraphicsScene::gameOver, 2))
+        if (QtMocHelpers::indexOfMethod<void (DuGraphicsScene::*)()>(_a, &DuGraphicsScene::gameWin, 2))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (DuGraphicsScene::*)()>(_a, &DuGraphicsScene::gameOver, 3))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (DuGraphicsScene::*)()>(_a, &DuGraphicsScene::gameReset, 4))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (DuGraphicsScene::*)()>(_a, &DuGraphicsScene::gameQuit, 5))
             return;
     }
 }
@@ -116,14 +134,14 @@ int DuGraphicsScene::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 6;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 6)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 3;
+        _id -= 6;
     }
     return _id;
 }
@@ -141,8 +159,26 @@ void DuGraphicsScene::speedChanged(int _t1)
 }
 
 // SIGNAL 2
-void DuGraphicsScene::gameOver()
+void DuGraphicsScene::gameWin()
 {
     QMetaObject::activate(this, &staticMetaObject, 2, nullptr);
+}
+
+// SIGNAL 3
+void DuGraphicsScene::gameOver()
+{
+    QMetaObject::activate(this, &staticMetaObject, 3, nullptr);
+}
+
+// SIGNAL 4
+void DuGraphicsScene::gameReset()
+{
+    QMetaObject::activate(this, &staticMetaObject, 4, nullptr);
+}
+
+// SIGNAL 5
+void DuGraphicsScene::gameQuit()
+{
+    QMetaObject::activate(this, &staticMetaObject, 5, nullptr);
 }
 QT_WARNING_POP

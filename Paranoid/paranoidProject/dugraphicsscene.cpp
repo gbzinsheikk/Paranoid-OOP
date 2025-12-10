@@ -98,6 +98,7 @@ void DuGraphicsScene::resetScene()
     mPlatformItem->sety(YPLATFORM);
     mPlatformItem->setvx(VXPLATFORM);
     mPlatformItem->setPos(XPLATFORM, YPLATFORM);
+    mPlatformItem->resetPlatformSize();
     //mPlatformItem->mCurrentVx(0);
 
     update();
@@ -144,7 +145,8 @@ void DuGraphicsScene::createObjects()
     mBallList.append(firstBall);
     mPlatformItem = new DuPlatformItem(XPLATFORM, YPLATFORM, WPLATFORM, HPLATFORM, VXPLATFORM, VYPLATFORM);
     xrandomNumber = QRandomGenerator::global()->bounded(xmin, xmax);
-    mPowerUpItem = new DuPowerUpItem(xrandomNumber, YPWRUP, WPWRUP, HPWRUP, VXPWRUP, VYPWRUP);
+     mPowerUpItem = new DuPowerUpItem(xrandomNumber, YPWRUP, WPWRUP, HPWRUP, VXPWRUP, VYPWRUP, POWERUP_MULTIBALL);
+
 }
 
 void DuGraphicsScene::configureObjects()
@@ -310,22 +312,28 @@ void DuGraphicsScene::updateScene()
                     /* Spawn do PowerUp */
 
                     if (!mPowerUpItem->isVisible()) {
-
                         if (QRandomGenerator::global()->bounded(0, 100) < 90) {
+
+                            // Escolhe tipo aleatoriamente (50% cada)
+                            PowerUpType randomType;
+                            if (QRandomGenerator::global()->bounded(0, 100) < 50) {
+                                randomType = POWERUP_MULTIBALL;
+                            } else {
+                                randomType = POWERUP_EXPAND_PLATFORM;
+                            }
 
                             int blockX = block->getx();
                             int blockY = block->gety();
                             int blockW = block->getw();
 
-                            // Posiciona o PowerUp no centro do bloco
-                            // (X do bloco + metade da largura do bloco) - (metade da largura do PowerUp)
                             int pwrX = blockX + (blockW / 2) - (mPowerUpItem->getw() / 2);
                             int pwrY = blockY;
 
-                            mPowerUpItem->setx(pwrX);
-                            mPowerUpItem->sety(pwrY);
-                            mPowerUpItem->setvx(0);
-                            mPowerUpItem->setvy(VYPWRUP);
+                            // Remove o power-up antigo e cria novo
+                            removeItem(mPowerUpItem);
+                            delete mPowerUpItem;
+                            mPowerUpItem = new DuPowerUpItem(pwrX, pwrY, WPWRUP, HPWRUP, 0, VYPWRUP, randomType);
+                            addItem(mPowerUpItem);
                             mPowerUpItem->setPos(pwrX, pwrY);
                             mPowerUpItem->show();
                         }
@@ -429,13 +437,18 @@ void DuGraphicsScene::checkCollisions(DuBallItem* ball)
 }
 
 void DuGraphicsScene::collectedPwrUp()
-{   
+{
+    PowerUpType type = mPowerUpItem->getType();
+
     mPowerUpItem->hide();
     mPowerUpItem->setPos(-1000, -1000);
 
-    //for(int i = 0; i < 2; i++) {
+    // IMPORTANTE: Reseta o tamanho da plataforma ANTES de aplicar novo efeito
+    // Isso garante que ao pegar qualquer upgrade, a expansão anterior é removida
+    mPlatformItem->resetPlatformSize();
 
-        // Cria nova(s) bola(s)
+    if (type == POWERUP_MULTIBALL) {
+        // Efeito: adiciona bolas extras
         DuBallItem* newBall = new DuBallItem(XPLATFORM, (YPLATFORM-10), WBALL, HBALL, VXBALL, -VYBALL, 0.0f, Qt::yellow);
         addItem(newBall);
         mBallList.append(newBall);
@@ -443,8 +456,10 @@ void DuGraphicsScene::collectedPwrUp()
         DuBallItem* newBall2 = new DuBallItem((XPLATFORM-20), (YPLATFORM-30), WBALL, HBALL, -VXBALL, -VYBALL, 0.0f, Qt::yellow);
         addItem(newBall2);
         mBallList.append(newBall2);
-
-        // [...]
-    //}
+    }
+    else if (type == POWERUP_EXPAND_PLATFORM) {
+        // Efeito: expande a plataforma (permanece até próximo upgrade)
+        mPlatformItem->expandPlatform();
+    }
 }
 

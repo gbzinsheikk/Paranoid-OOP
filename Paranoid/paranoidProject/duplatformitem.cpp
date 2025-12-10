@@ -1,7 +1,7 @@
 #include "duplatformitem.h"
 #include "DuGlobalDefines.h"
 //#include "duutil.h"
-
+#include <QGraphicsItem>
 #include <QPainter>
 #include <QKeyEvent>
 
@@ -12,6 +12,8 @@ DuPlatformItem::DuPlatformItem(int x, int y, int w, int h, int vx, int vy, QGrap
     mIsLeftPressed = false;
     mIsRightPressed = false;
     mCurrentVx = 0.0;
+    mIsExpanded = false;
+    mOriginalWidth = w;
 }
 
 void DuPlatformItem::keyPress(int key)
@@ -25,6 +27,42 @@ void DuPlatformItem::keyRelease(int key)
     if (key == Qt::Key_Left) mIsLeftPressed = false;
     if (key == Qt::Key_Right) mIsRightPressed = false;
 }
+
+void DuPlatformItem::expandPlatform()
+{
+    if (!mIsExpanded) {
+        // Centraliza a expansão (expande igualmente para ambos os lados)
+        int widthDiff = WPLATFORM_EXPANDED - mw;
+        mx -= widthDiff / 2;  // Move para esquerda metade da diferença
+
+        // Verifica limites
+        if (mx < 0) mx = 0;
+        if (mx > (XSIZE - WPLATFORM_EXPANDED)) mx = XSIZE - WPLATFORM_EXPANDED;
+
+        mw = WPLATFORM_EXPANDED;
+        mIsExpanded = true;
+
+        setPos(mx, my);
+        prepareGeometryChange();  // Importante: notifica mudança de tamanho
+    }
+    // Se já está expandida, não faz nada (mantém expandida)
+}
+
+void DuPlatformItem::resetPlatformSize()
+{
+    if (mIsExpanded) {
+        // Centraliza a redução
+        int widthDiff = mw - mOriginalWidth;
+        mx += widthDiff / 2;
+
+        mw = mOriginalWidth;
+        mIsExpanded = false;
+
+        setPos(mx, my);
+        prepareGeometryChange();  // Importante: notifica mudança de tamanho
+    }
+}
+
 
 void DuPlatformItem::move()
 {
@@ -57,8 +95,8 @@ void DuPlatformItem::move()
     if (mx < 0) {
         mx = 0;
         mCurrentVx = 0;
-    } else if (mx > (XSIZE - WPLATFORM)) {
-        mx = XSIZE - WPLATFORM;
+    } else if (mx > (XSIZE - mw)) {
+        mx = XSIZE - mw;
         mCurrentVx = 0;
     }
 

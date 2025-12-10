@@ -12,6 +12,9 @@ public:
     void keyPress(int key);
     void keyRelease(int key);
     void move();
+    void expandPlatform();
+    void resetPlatformSize();
+    bool isExpanded() const { return mIsExpanded; }
 
     /* Velocidade atual */
     double mCurrentVx;
@@ -22,6 +25,8 @@ protected:
 private:
     bool mIsLeftPressed;
     bool mIsRightPressed;
+    bool mIsExpanded;
+    int mOriginalWidth;
 };
 
 #endif // DUPLATFORMITEM_H
