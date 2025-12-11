@@ -39,6 +39,7 @@ private slots:
     void resetButtonOn();
     void atualizarBotoes();
     void ganhouJogo();
+    void perdeuJogo();
 
 private:
     QPushButton *mBotaoIniciar;

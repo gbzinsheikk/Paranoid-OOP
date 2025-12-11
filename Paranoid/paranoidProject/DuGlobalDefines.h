@@ -10,7 +10,7 @@
 #define HBALL 20
 #define VXBALL 3
 #define VYBALL 3
-#define MAX_SPEED     4     // Velocidade Máxima da Bola (Base: 12)
+#define MAX_SPEED    5     // Velocidade Máxima da Bola (Base: 12)
 
 #define XPLATFORM XSIZE*1/2
 #define YPLATFORM YSIZE*7/8

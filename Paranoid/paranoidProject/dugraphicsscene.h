@@ -44,6 +44,14 @@ private:
     //QList<QGraphicsItem*> mWallList;
     QList<duBlockItem*> mBlockList;
 
+    int mCurrentPhase;
+    QList<int> mPhaseOrder;
+    int mCompletedPhases;
+
+    void createBlocksForPhase(int phaseIndex);
+    void loadNextPhase();
+    void generateRandomPhaseOrder();
+
 
     int mTotalScore;
     int xmin;
@@ -54,6 +62,7 @@ signals:
     void scoreChanged(int newScore);
     void speedChanged(int newSpeed);
     void gameWin();
+    void gameLose();
     void gameOver();
     void gameReset();
     void gameQuit();

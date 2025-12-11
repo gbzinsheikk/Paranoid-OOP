@@ -14,6 +14,8 @@
 DuGraphicsScene::DuGraphicsScene(QObject *parent) : QGraphicsScene(0.0 , 0.0, XSIZE, YSIZE, parent)
 {
     mTotalScore = 0;
+    mCurrentPhase = 0;
+    mCompletedPhases = 0;
 
     xmin = 20;
     xmax = 400;
@@ -52,12 +54,6 @@ void DuGraphicsScene::resetScene()
     }
     mBallList.clear();
 
-    // Recria a bola inicial
-    //xrandomNumber = QRandomGenerator::global()->bounded(xmin, xmax);
-    DuBallItem* newBall = new DuBallItem((XPLATFORM+35), (YPLATFORM-20), WBALL, HBALL, VXBALL, -VYBALL, 0.0f, Qt::green);
-    addItem(newBall);
-    mBallList.append(newBall);
-
     // Limpa blocos extras
      for(QGraphicsItem* block : mBlockList) {
          removeItem(block);
@@ -93,6 +89,25 @@ void DuGraphicsScene::resetScene()
     QGraphicsRectItem* block2 = addRect(350, 100, 150, 50, QPen(Qt::black), QBrush(Qt::white));
     mWallList.append(block2);
     */
+
+    mCurrentPhase = 0;
+    mCompletedPhases = 0;
+    generateRandomPhaseOrder();
+
+
+    for(DuBallItem* ball : mBallList) {
+        removeItem(ball);
+        delete ball;
+    }
+    mBallList.clear();
+
+    //recria bola inicial verde
+    DuBallItem* newBall = new DuBallItem((XPLATFORM+35), (YPLATFORM-20), WBALL, HBALL, VXBALL, -VYBALL, 0.0f, Qt::green);
+    addItem(newBall);
+    mBallList.append(newBall);
+
+    int firstPhase = mPhaseOrder[0];
+    createBlocksForPhase(firstPhase);
 
     mPlatformItem->setx(XPLATFORM);
     mPlatformItem->sety(YPLATFORM);
@@ -159,7 +174,10 @@ void DuGraphicsScene::configureObjects()
     addItem(mPowerUpItem);
     addRect(0.0, 0.0, XSIZE, YSIZE, QPen(QColor(Qt::black)));
     mPowerUpItem->hide();
-
+    // ordem aleatoria das fases
+    generateRandomPhaseOrder();
+    int firstPhase = mPhaseOrder[0];
+    createBlocksForPhase(firstPhase);
     // QGraphicsRectItem* wall = addRect(0, 100, 150, 50, QPen(Qt::black), QBrush(Qt::white));
     // mWallList.append(wall);
 
@@ -167,29 +185,6 @@ void DuGraphicsScene::configureObjects()
     // mWallList.append(wall2);
 
     // duBlockItem* block : mBlockList;
-
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 3; ++j) {
-
-            int x = 50 + (i * 80);
-            int y = 50 + (j * 40);
-            int vida = 3 - j;
-
-            duBlockItem* newBlock = new duBlockItem(vida, x, y, 70, 30, Qt::green);
-            addItem(newBlock);
-            mBlockList.append(newBlock);
-        }
-        for (int j = 0; j < 2; ++j) {
-
-            int x = 50 + (i * 80);
-            int y = 50 + (j * 40);
-            int vida = 3 - j;
-
-            duBlockItem* newBlock = new duBlockItem(vida, x, y+120, 70, 30, Qt::green);
-            addItem(newBlock);
-            mBlockList.append(newBlock);
-        }
-    }
 
 }
 void DuGraphicsScene::connectObjects()
@@ -314,7 +309,6 @@ void DuGraphicsScene::updateScene()
                     if (!mPowerUpItem->isVisible()) {
                         if (QRandomGenerator::global()->bounded(0, 100) < 90) {
 
-                            // Escolhe tipo aleatoriamente (50% cada)
                             PowerUpType randomType;
                             if (QRandomGenerator::global()->bounded(0, 100) < 50) {
                                 randomType = POWERUP_MULTIBALL;
@@ -329,7 +323,6 @@ void DuGraphicsScene::updateScene()
                             int pwrX = blockX + (blockW / 2) - (mPowerUpItem->getw() / 2);
                             int pwrY = blockY;
 
-                            // Remove o power-up antigo e cria novo
                             removeItem(mPowerUpItem);
                             delete mPowerUpItem;
                             mPowerUpItem = new DuPowerUpItem(pwrX, pwrY, WPWRUP, HPWRUP, 0, VYPWRUP, randomType);
@@ -340,7 +333,6 @@ void DuGraphicsScene::updateScene()
                     }
                 }
                 else {
-                    // Se não quebrou, ele mudou de cor
                     block->update();
                 }
                 break;
@@ -354,12 +346,10 @@ void DuGraphicsScene::updateScene()
             ball->setscore(0);
         }
 
-        // Checa colisão com a plataforma
         if(ball->collidesWithItem(mPlatformItem)){
             checkCollisions(ball);
         }     
 
-        // Checa GAME OVER (individual)
         if (ball->gety() >= (YSIZE - (HBALL-50))) {
             removeItem(ball);
             mBallList.removeAt(i);
@@ -371,18 +361,26 @@ void DuGraphicsScene::updateScene()
     // Checa GAME WIN
 
     if(mBlockList.isEmpty()){
-        //mBallList.clear();
-        stopScene();
-        emit gameWin();
+        mCompletedPhases++;
+
+        if (mCompletedPhases >= 3) {
+            stopScene();
+            emit gameWin();
+            return;
+        }
+        else {
+            mCurrentPhase++;
+            loadNextPhase();
+            return;
+
+        }
     }
 
-    // Se a lista ficou vazia -> GAME OVER REAL
     if (mBallList.isEmpty()) {
         stopScene();
-        emit gameOver();
+        emit gameLose();
+        return;
     }
-
-    // Atualiza Score/Speed baseado na primeira bola
     else {
         emit scoreChanged(mTotalScore);
         //emit speedChanged(DuUtil::abs(mBallList.first()->getvy()));
@@ -436,6 +434,155 @@ void DuGraphicsScene::checkCollisions(DuBallItem* ball)
         ball->setvy(bvy);
 }
 
+void DuGraphicsScene::generateRandomPhaseOrder()
+{
+    mPhaseOrder.clear();
+    mPhaseOrder.append(0);
+    mPhaseOrder.append(1);
+    mPhaseOrder.append(2);
+
+    for (int i = mPhaseOrder.size() - 1; i > 0; --i) {
+        int j = QRandomGenerator::global()->bounded(0, i + 1);
+        mPhaseOrder.swapItemsAt(i, j);
+    }
+}
+
+void DuGraphicsScene::createBlocksForPhase(int phaseIndex)
+{
+    // Limpa blocos existentes
+    for(QGraphicsItem* block : mBlockList) {
+        removeItem(block);
+        delete block;
+    }
+    mBlockList.clear();
+
+    switch(phaseIndex) {
+    case 0: // Fase 1
+    {
+        for (int i = 0; i < 5; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                int x = 50 + (i * 80);
+                int y = 50 + (j * 40);
+                int vida = 3 - j;
+
+                duBlockItem* newBlock = new duBlockItem(vida, x, y, 70, 30, Qt::green);
+                addItem(newBlock);
+                mBlockList.append(newBlock);
+            }
+            for (int j = 0; j < 2; ++j) {
+                int x = 50 + (i * 80);
+                int y = 50 + (j * 40);
+                int vida = 3 - j;
+
+                duBlockItem* newBlock = new duBlockItem(vida, x, y+120, 70, 30, Qt::green);
+                addItem(newBlock);
+                mBlockList.append(newBlock);
+            }
+        }
+        break;
+    }
+
+    case 1: // Fase 2
+    {
+        for (int i = 0; i < 6; ++i) {
+            for (int j = 0; j < 5; ++j) {
+                // Cria padrão xadrez
+                if ((i + j) % 2 == 0) {
+                    int x = 30 + (i * 75);
+                    int y = 50 + (j * 35);
+                    int vida = (j % 3) + 1;
+
+                    duBlockItem* newBlock = new duBlockItem(vida, x, y, 65, 25, Qt::green);
+                    addItem(newBlock);
+                    mBlockList.append(newBlock);
+                }
+            }
+        }
+        break;
+    }
+
+    case 2: // Fase 3
+    {
+        // 5 blocos
+        for (int i = 0; i < 5; ++i) {
+            int x = 75 + (i * 70);
+            int y = 50;
+            duBlockItem* newBlock = new duBlockItem(3, x, y, 60, 30, Qt::green);
+            addItem(newBlock);
+            mBlockList.append(newBlock);
+        }
+
+        // 4 blocos
+        for (int i = 0; i < 4; ++i) {
+            int x = 110 + (i * 70);
+            int y = 90;
+            duBlockItem* newBlock = new duBlockItem(2, x, y, 60, 30, Qt::green);
+            addItem(newBlock);
+            mBlockList.append(newBlock);
+        }
+
+        // 3 blocos
+        for (int i = 0; i < 3; ++i) {
+            int x = 145 + (i * 70);
+            int y = 130;
+            duBlockItem* newBlock = new duBlockItem(2, x, y, 60, 30, Qt::green);
+            addItem(newBlock);
+            mBlockList.append(newBlock);
+        }
+
+        // 2 blocos
+        for (int i = 0; i < 2; ++i) {
+            int x = 180 + (i * 70);
+            int y = 170;
+            duBlockItem* newBlock = new duBlockItem(1, x, y, 60, 30, Qt::green);
+            addItem(newBlock);
+            mBlockList.append(newBlock);
+        }
+
+        //1 bloco
+        duBlockItem* newBlock = new duBlockItem(1, 215, 210, 60, 30, Qt::green);
+        addItem(newBlock);
+        mBlockList.append(newBlock);
+
+        break;
+    }
+    }
+}
+
+void DuGraphicsScene::loadNextPhase()
+{
+
+    for(int i = mBallList.size() - 1; i > 0; --i) {
+        DuBallItem* ball = mBallList[i];
+        removeItem(ball);
+        mBallList.removeAt(i);
+        delete ball;
+    }
+
+    if (!mBallList.isEmpty()) {
+        DuBallItem* mainBall = mBallList.first();
+        mainBall->setx(XPLATFORM + 35);
+        mainBall->sety(YPLATFORM - 20);
+        mainBall->setvx(VXBALL);
+        mainBall->setvy(-VYBALL);
+        mainBall->setPos(XPLATFORM + 35, YPLATFORM - 20);
+    }
+
+    mPowerUpItem->hide();
+    mPowerUpItem->setPos(-1000, -1000);
+
+    mPlatformItem->setx(XPLATFORM);
+    mPlatformItem->sety(YPLATFORM);
+    mPlatformItem->setvx(VXPLATFORM);
+    mPlatformItem->setPos(XPLATFORM, YPLATFORM);
+
+    int phaseToLoad = mPhaseOrder[mCurrentPhase];
+    createBlocksForPhase(phaseToLoad);
+
+    update();
+}
+
+
 void DuGraphicsScene::collectedPwrUp()
 {
     PowerUpType type = mPowerUpItem->getType();
@@ -443,12 +590,9 @@ void DuGraphicsScene::collectedPwrUp()
     mPowerUpItem->hide();
     mPowerUpItem->setPos(-1000, -1000);
 
-    // IMPORTANTE: Reseta o tamanho da plataforma ANTES de aplicar novo efeito
-    // Isso garante que ao pegar qualquer upgrade, a expansão anterior é removida
     mPlatformItem->resetPlatformSize();
-
+    //powerups
     if (type == POWERUP_MULTIBALL) {
-        // Efeito: adiciona bolas extras
         DuBallItem* newBall = new DuBallItem(XPLATFORM, (YPLATFORM-10), WBALL, HBALL, VXBALL, -VYBALL, 0.0f, Qt::yellow);
         addItem(newBall);
         mBallList.append(newBall);
@@ -458,7 +602,6 @@ void DuGraphicsScene::collectedPwrUp()
         mBallList.append(newBall2);
     }
     else if (type == POWERUP_EXPAND_PLATFORM) {
-        // Efeito: expande a plataforma (permanece até próximo upgrade)
         mPlatformItem->expandPlatform();
     }
 }

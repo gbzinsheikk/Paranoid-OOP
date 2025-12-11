@@ -106,6 +106,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(mScene, &DuGraphicsScene::gameReset, this, &MainWindow::atualizarBotoes);
     connect(mScene, &DuGraphicsScene::gameWin, this, &MainWindow::ganhouJogo);
     connect(mScene, &DuGraphicsScene::gameQuit, this, &MainWindow::encerrarJogo);
+    connect(mScene, &DuGraphicsScene::gameLose, this, &MainWindow::perdeuJogo);
 
     mBotaoReset->setEnabled(false);
 }
@@ -131,6 +132,8 @@ void MainWindow::resetarJogo()
 {
     //mArkanoid->resetGame();
     mScene->resetScene();
+    mScene->startScene();
+
     //mScoreDisplay->display(0);
     mView->setFocus();
     mBotaoIniciar->setEnabled(true);
@@ -143,6 +146,7 @@ void MainWindow::resetarJogo()
 void MainWindow::resetButtonOn()
 {
     mBotaoReset->setEnabled(true);
+    mView->setFocus();
 }
 
 void MainWindow::encerrarJogo()
@@ -177,6 +181,24 @@ void MainWindow::ganhouJogo()
     mBotaoIniciar->setEnabled(false);
     mBotaoReset->setEnabled(true);
 
+    mWinLabel->setText("YOU WIN!");
+    mWinLabel->setStyleSheet("QLabel { color : green; background-color: white; border: 2px solid black; }");
+    mFinalScore->display(mScoreDisplay->intValue());
+    mWinLabel->raise();
+    mFinalScore->raise();
+    mWinLabel->show();
+    mFinalScore->show();
+    mView->setFocus();
+}
+
+
+void MainWindow::perdeuJogo()
+{
+    mBotaoIniciar->setEnabled(false);
+    mBotaoReset->setEnabled(true);
+
+    mWinLabel->setText("YOU LOSE!");
+    mWinLabel->setStyleSheet("QLabel { color : red; background-color: white; border: 2px solid black; }");
     mFinalScore->display(mScoreDisplay->intValue());
     mWinLabel->raise();
     mFinalScore->raise();
