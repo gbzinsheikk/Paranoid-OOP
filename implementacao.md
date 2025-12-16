@@ -82,6 +82,8 @@ Esta fase adiciona complexidade ao jogo, evoluindo a lógica básica, dando form
   - _`POWERUP_MULTIBALL`_: Cria duas bolas extras amarelas na posição da plataforma;
   - _`POWERUP_EXPAND_PLATFORM`_: Aumenta a largura da plataforma de 100 para 150 pixels.
 
+<img width="543" height="717" alt="image" src="https://github.com/user-attachments/assets/3a1f88d9-ec5b-476c-9091-401574c85bff" />
+
 ## Parte 4. Gerenciamento de Múltiplas Fases
 
 A etapa final consistiu em criar uma progressão com fases, dando ao jogo início, meio e fim de forma mais interessante que completar apenas uma fase de blocos que se repetiria todas as vezes.
@@ -108,5 +110,3 @@ A etapa final consistiu em criar uma progressão com fases, dando ao jogo iníci
   - Derrota: Perder todas as bolas (_`mBallList.isEmpty()`_).
 
 <img width="541" height="720" alt="image" src="https://github.com/user-attachments/assets/52e16837-0ce2-4f67-a820-080130562bf2" />
-
-<img width="543" height="717" alt="image" src="https://github.com/user-attachments/assets/3a1f88d9-ec5b-476c-9091-401574c85bff" />
