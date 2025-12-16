@@ -106,3 +106,7 @@ A etapa final consistiu em criar uma progressão com fases, dando ao jogo iníci
 
   - Vitória: Completar as 3 fases (_mCompletedPhases >= 3_);
   - Derrota: Perder todas as bolas (_mBallList.isEmpty()_).
+
+<img width="541" height="720" alt="image" src="https://github.com/user-attachments/assets/52e16837-0ce2-4f67-a820-080130562bf2" />
+
+<img width="543" height="717" alt="image" src="https://github.com/user-attachments/assets/3a1f88d9-ec5b-476c-9091-401574c85bff" />
